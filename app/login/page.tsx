@@ -1,80 +1,93 @@
-// app/login/page.tsx
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    setIsLoading(true);
     e.preventDefault();
-    // Add your login logic here (API call, etc.)
-    console.log({ email, password });
+    setMessage("");
+
+    setTimeout(async () => {
+      try {
+        const res = await fetch("http://localhost:3000/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          router.push("/homepage");
+        } else {
+          setMessage(`❌ ${data.error || "Login failed"}`);
+        }
+      } catch (err) {
+        console.error(err);
+        setMessage("❌ Network error");
+      } finally {
+        setIsLoading(false);
+      }
+    }, 1000);
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8">
-        <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
-          Sign in to your account
-        </h2>
+      <form
+        onSubmit={handleLogin}
+        className="p-8 bg-white rounded-2xl shadow-md w-full max-w-md space-y-4 "
+      >
+        <h1 className="text-2xl font-bold text-center">AwareNet</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email address
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-              placeholder="you@example.com"
-            />
-          </div>
+        <div>
+          <label className="block mb-1 text-sm font-medium">Email</label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border px-3 text-sm py-2 rounded-lg bg-gray-100 outline-none border-none mb-5"
+            required
+          />
+        </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-md text-gray-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-              placeholder="••••••••"
-            />
-          </div>
+        <div>
+          <label className="block mb-1 text-sm font-medium text-black-900">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border px-3 text-sm py-2 rounded-lg outline-none border-none bg-gray-100"
+            required
+          />
+        </div>
 
+        {isLoading ? (
+          <p className="text-center text-sm text-gray-700">Logging in...</p>
+        ) : (
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2.5 rounded-md font-medium hover:bg-blue-700 transition"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg"
           >
-            Sign In
+            Login
           </button>
-        </form>
+        )}
 
-        <p className="text-center text-sm text-gray-600 mt-6">
-          Don’t have an account?{" "}
-          <a
-            href="/register"
-            className="text-blue-600 hover:text-blue-500 font-medium"
-          >
-            Sign up
-          </a>
-        </p>
-      </div>
+        {message && (
+          <p className="text-center text-sm text-gray-700 mt-3">{message}</p>
+        )}
+      </form>
     </div>
   );
 }

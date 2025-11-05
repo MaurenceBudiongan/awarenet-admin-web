@@ -17,7 +17,7 @@ export default function Home() {
         
         <h1>Awarenet Admin Web</h1>
 
-        <div onClick={goToLoginPage} className="cursor-pointer">
+        <div onClick={goToLoginPage} className="cursor-pointer hover:text-blue-200">
           Go to Login page
         </div>
       </main>
