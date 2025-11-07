@@ -1,7 +1,64 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+import user from "../user/page";
+import feedback from "../feedback/page";
+import history from "../history/page";
+import manage_awareness_guide from "../manage_awareness_guide/page";
+
+const Dashboard = dynamic(() => import("../dashboard/page"), { ssr: false });
+const User = dynamic(() => Promise.resolve(user), {
+  ssr: false,
+});
+const Feedback = dynamic(() => Promise.resolve(feedback), {
+  ssr: false,
+});
+const History = dynamic(() => Promise.resolve(history), {
+  ssr: false,
+});
+const Manage_Awareness_Guide = dynamic(
+  () => Promise.resolve(manage_awareness_guide),
+  {
+    ssr: false,
+  }
+);
+const Logout = dynamic(() => Promise.resolve(history), {
+  ssr: false,
+});
 
 const Homepage = () => {
+  const [active, setActive] = useState("welcome");
+
+  let content;
+
+  switch (active) {
+    case "dashboard":
+      content = <Dashboard />;
+      break;
+    case "user":
+      content = <User />;
+      break;
+    case "feedback":
+      content = <Feedback />;
+      break;
+    case "history":
+      content = <History />;
+      break;
+    case "manage_awareness_guide":
+      content = <Manage_Awareness_Guide />;
+      break;
+    case "logout":
+      content = <Logout />;
+      break;
+    default:
+      content = (
+        <h1 className="ml-6 text-2xl font-semibold">
+          Welcome to AwareNet Admin Portal
+        </h1>
+      );
+      break;
+  }
   return (
     <div className="flex h-screen">
       <nav className="w-90 text-white flex flex-col p-6 space-y-6 border-r-3 border-gray-100">
@@ -31,7 +88,10 @@ const Homepage = () => {
             <rect width="7" height="9" x="14" y="12" rx="1" />
             <rect width="7" height="5" x="3" y="16" rx="1" />
           </svg>
-          <button className="py-2 px-1 w-px  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium">
+          <button
+            onClick={() => setActive("dashboard")}
+            className="py-2 px-1 w-px  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium"
+          >
             Dashboard
           </button>
         </div>
@@ -53,7 +113,10 @@ const Homepage = () => {
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
             <circle cx="9" cy="7" r="4" />
           </svg>
-          <button className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium">
+          <button
+            onClick={() => setActive("user")}
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium"
+          >
             User
           </button>
         </div>
@@ -76,7 +139,10 @@ const Homepage = () => {
             <path d="M12 12h.01" />
             <path d="M16 12h.01" />
           </svg>
-          <button className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium">
+          <button
+            onClick={() => setActive("feedback")}
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium"
+          >
             Feedback
           </button>
         </div>
@@ -98,7 +164,10 @@ const Homepage = () => {
             <path d="M3 3v5h5" />
             <path d="M12 7v5l4 2" />
           </svg>
-          <button className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium">
+          <button
+            onClick={() => setActive("history")}
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium"
+          >
             History
           </button>
         </div>
@@ -118,7 +187,10 @@ const Homepage = () => {
           >
             <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20" />
           </svg>
-          <button className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium">
+          <button
+            onClick={() => setActive("manage_awareness_guide")}
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium"
+          >
             Manage Awareness Guide
           </button>
         </div>
@@ -141,7 +213,10 @@ const Homepage = () => {
             <path d="M21 12H9" />
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
           </svg>
-          <button className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium">
+          <button
+            onClick={() => setActive("logout")}
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium"
+          >
             Logout
           </button>
         </div>
@@ -157,7 +232,7 @@ const Homepage = () => {
             className="rounded-full float-right"
           />
         </header>
-        <p className="ml-6 text-2xl font-semibold">Dashboard Overview</p>
+        <div>{content}</div>
       </main>
     </div>
   );
