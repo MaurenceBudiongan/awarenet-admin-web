@@ -219,13 +219,13 @@ const Homepage = () => {
       </nav>
 
       <main className="relative flex flex-col space-y-6 w-full">
-        <header className="p-4 border-b-3 border-gray-100 mr-10">
+        <header className="p-4 border-b-3 border-gray-100 ">
           <Image
             src="/profile.png"
             alt="AwareNet Logo"
             width={50}
             height={50}
-            className="rounded-full float-right"
+            className="rounded-full float-right mr-10"
           />
         </header>
         <div>{content}</div>
