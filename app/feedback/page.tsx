@@ -11,6 +11,11 @@ const Feedback = () => {
             <p>9</p>
             <p>Across all users</p>
           </div>
+          <div>
+            <p>Average Rating</p>
+            <p>4.1/5</p>
+            <p>Based on all submissions</p>
+          </div>
         </div>
       </div>
     </div>
