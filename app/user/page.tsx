@@ -19,9 +19,12 @@ const User = () => {
               <td className="py-5 px-5">Google Authentication</td>
               <td className="py-5 px-5">admin@awarenet.com</td>
               <td className="py-5 px-5">2025-07-20 10:30 AM</td>
-              <td className="py-5 px-5">
+              <td className="py-5 px-5 space-x-2">
                 <button className="cursor-pointer bg-white hover:bg-red-400 hover:text-white text-red-400 w-19 h-8 rounded-full border-2 border-red-400">
                   delete
+                </button>
+                <button className="cursor-pointer bg-white hover:bg-orange-300 hover:text-white text-orange-300 w-19 h-8 rounded-full border-2 border-orange-300">
+                  restrict
                 </button>
               </td>
             </tr>
@@ -29,9 +32,12 @@ const User = () => {
               <td className="py-5 px-5 bg-[#fafafb]">Google Authentication</td>
               <td className="py-5 px-5 bg-[#fafafb]">admin@awarenet.com</td>
               <td className="py-5 px-5 bg-[#fafafb]">2025-07-20 9:30 AM</td>
-              <td className="py-5 px-5 bg-[#fafafb]">
+              <td className="py-5 px-5 bg-[#fafafb] space-x-2">
                 <button className="cursor-pointer bg-white hover:bg-red-400 hover:text-white text-red-400 w-19 h-8 rounded-full border-2 border-red-400">
                   delete
+                </button>
+                <button className="cursor-pointer bg-white hover:bg-orange-300 hover:text-white text-orange-300 w-19 h-8 rounded-full border-2 border-orange-300">
+                  restrict
                 </button>
               </td>
             </tr>
@@ -39,9 +45,12 @@ const User = () => {
               <td className="py-5 px-5">AwareNet Authentication</td>
               <td className="py-5 px-5">user123@awarenet.com</td>
               <td className="py-5 px-5">2025-07-18 1:00 PM</td>
-              <td className="py-5 px-5">
+              <td className="py-5 px-5 space-x-2">
                 <button className="cursor-pointer bg-white hover:bg-red-400 hover:text-white text-red-400 w-19 h-8 rounded-full border-2 border-red-400">
                   delete
+                </button>
+                <button className="cursor-pointer bg-white hover:bg-orange-300 hover:text-white text-orange-300 w-19 h-8 rounded-full border-2 border-orange-300">
+                  restrict
                 </button>
               </td>
             </tr>

@@ -57,7 +57,7 @@ const Homepage = () => {
   }
   return (
     <div className="flex h-screen">
-      <nav className="w-100 text-white flex flex-col p-6 space-y-6 border-r-3 border-gray-100">
+      <nav className="w-120 text-white flex flex-col p-6 space-y-6 border-r-3 border-gray-100">
         <Image
           src="/logo.png"
           alt="AwareNet Logo"
@@ -86,7 +86,7 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("dashboard")}
-            className="py-2 px-1 w-px rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-lg"
+            className="py-2 px-1 w-px rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-xl"
           >
             Dashboard
           </button>
@@ -111,7 +111,7 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("user")}
-            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-lg"
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-xl"
           >
             User
           </button>
@@ -137,7 +137,7 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("feedback")}
-            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-lg"
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-xl"
           >
             Feedback
           </button>
@@ -162,7 +162,7 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("history")}
-            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-lg"
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-xl"
           >
             History
           </button>
@@ -185,7 +185,7 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("manage_awareness_guide")}
-            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-lg"
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-xl"
           >
             Manage Awareness Guide
           </button>
@@ -211,7 +211,7 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("logout")}
-            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-lg"
+            className="py-2 px-1 w-full  rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-xl"
           >
             Logout
           </button>
