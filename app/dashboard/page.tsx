@@ -5,7 +5,7 @@ const Dashboard = () => {
     <div>
       <p className="ml-10 mt-4 text-4xl font-bold ">Dashboard Overview</p>
       <div className="flex flex-col">
-        <div className="ml-10 mr-10 mt-10 mb-7 p-4 bg-[#F3F7FC] rounded-xl h-64 flex flex-col justify-around gap-y-2">
+        <div className="ml-10 mr-10 mt-10 mb-7 p-6 bg-[#F3F7FC] rounded-xl h-60 flex flex-col justify-around gap-y-2">
           <div className="flex flex-col items-center ">
             <div className="flex items-center p-2 bg-black rounded-full">
               <svg
@@ -29,7 +29,7 @@ const Dashboard = () => {
             </p>
           </div>
           <div className="flex flex-col ">
-            <p className="ml-5 text-6xl font-bold ">2,450</p>
+            <p className="ml-5 text-5xl font-bold ">2,450</p>
             <p className="ml-5 text-md text-gray-500 font-semibold mt-3">
               Currently online and active
             </p>
