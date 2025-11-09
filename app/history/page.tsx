@@ -55,6 +55,51 @@ const History = () => {
               </svg>
             </div>
           </div>
+          <div className="w-full rounded-xl shadow-sm h-40 flex justify-center items-center space-x-4">
+            <div className="w-20 flex flex-col space-y-2 ">
+              <p className="text-[#565d6d]">Feedback Submitted</p>
+              <p className="text-2xl font-bold">320</p>
+            </div>
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-[#16A34A] lucide lucide-message-circle-icon lucide-message-circle"
+              >
+                <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+              </svg>
+            </div>
+          </div>
+          <div className="w-full rounded-xl shadow-sm h-40 flex justify-center items-center space-x-4">
+            <div className="w-20 flex flex-col space-y-2 ">
+              <p className="text-[#565d6d]">Links Verified</p>
+              <p className="text-2xl font-bold">680</p>
+            </div>
+            <div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-[#EF4444] lucide lucide-circle-check-big-icon lucide-circle-check-big"
+              >
+                <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+                <path d="m9 11 3 3L22 4" />
+              </svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
