@@ -20,8 +20,8 @@ const Feedback = () => {
         </div>
 
         <div className="ml-10 mr-10 mt-5 mb-7 rounded-xl flex space-x-15 ">
-          <div className="w-full  rounded-lg space-y-4 h-50 flex flex-col justify-center p-10">
-            <div>
+          <div className="w-full bg-[#e5f6ff] rounded-lg space-y-4 h-50 flex flex-col justify-center p-10">
+            <div className="flex space-x-4">
               <div>
                 <Image
                   src="/profile.png"
@@ -32,11 +32,11 @@ const Feedback = () => {
                 />
               </div>
               <div>
-                <p>Anora, Rhea</p>
-                <p>July 22, 2024</p>
+                <p className="text-lg">Anora, Rhea</p>
+                <p className="text-md text-[#565d6d]">July 22, 2024</p>
               </div>
             </div>
-            <div>
+            <div className="flex">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -88,7 +88,9 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button>View Details</button>
+                <button className="text-[#05893E] float-right">
+                  View Details
+                </button>
               </p>
             </div>
           </div>
