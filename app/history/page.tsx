@@ -3,7 +3,7 @@
 const History = () => {
   return (
     <div>
-      <p className="ml-10 mt-4 text-4xl font-bold">History Overview</p>
+      <p className="ml-10 mt-4 text-4xl font-bold">History</p>
       <div className="ml-10 mr-10 mt-10 mb-7 rounded-xl flex space-x-15">
         <div className="flex w-full space-x-30">
           <div className="w-full rounded-xl shadow-sm h-40 flex justify-center items-center space-x-4">
