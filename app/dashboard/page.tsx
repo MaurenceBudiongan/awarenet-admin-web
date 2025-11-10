@@ -24,7 +24,7 @@ const Dashboard = () => {
                 <path d="m9 12 2 2 4-4" />
               </svg>
             </div>
-            <p className="ml-5 mt-5 text-md text-gray-500 font-bold mt-3">
+            <p className="ml-5 mt-5 text-md text-gray-500 font-bold">
               Total Active Users
             </p>
           </div>
@@ -35,7 +35,7 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <div className="ml-10 mr-10 rounded-lg h-64 flex flex-row justify-between gap-x-15 h-100 ">
+        <div className="ml-10 mr-10 rounded-lg flex flex-row justify-between gap-x-15 h-100 ">
           <div className="p-8 rounded-xl w-full shadow-sm ">
             <p className="text-xl font-semibold mb-3">Scans Analytic volume</p>
             <p className="text-md text-gray-500 font-semibold">
