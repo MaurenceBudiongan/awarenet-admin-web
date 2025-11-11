@@ -5,7 +5,7 @@ const Dashboard = () => {
     <div>
       <p className="ml-10 mt-4 text-4xl font-bold ">Dashboard Overview</p>
       <div className="flex flex-col">
-        <div className="ml-10 mr-10 mt-10 mb-7 p-6 bg-[#F3F7FC] rounded-xl h-60 flex flex-col justify-around gap-y-2">
+        <div className="ml-10 mr-10 mt-10 mb-7 p-6 bg-[#F3F7FC] rounded-xl  flex flex-col justify-around gap-y-2">
           <div className="flex flex-col items-center ">
             <div className="flex items-center p-2 bg-black rounded-full">
               <svg
