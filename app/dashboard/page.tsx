@@ -35,7 +35,7 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <div className="ml-10 mr-10 rounded-lg md:flex flex-row justify-between gap-x-15 h-100 ">
+        <div className="ml-10 mr-10 rounded-lg  flex-row md:flex  justify-between gap-x-15 sm:space-y-5 h-100 ">
           <div className="p-8 rounded-xl w-full shadow-sm ">
             <p className="text-xl font-semibold mb-3">Scans Analytic volume</p>
             <p className="text-md text-gray-500 font-semibold">

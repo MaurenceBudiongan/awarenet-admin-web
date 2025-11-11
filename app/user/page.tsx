@@ -3,9 +3,9 @@
 const User = () => {
   return (
     <div className="">
-      <p className="text-4xl font-bold mb-6 ">AwareNet User</p>
+      <p className="ml-10 mt-4 text-4xl font-bold mb-6 ">AwareNet User</p>
 
-      <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+      <div className="ml-10 mr-10 mt-10 mb-7 overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
         <table className="min-w-full text-xs sm:text-sm text-left text-gray-500">
           <thead className="bg-[#eafef3] text-gray-700">
             <tr>
