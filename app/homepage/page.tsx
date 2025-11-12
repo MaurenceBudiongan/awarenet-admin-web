@@ -65,7 +65,7 @@ const Homepage = () => {
           height={150}
           className="rounded-full float-right"
         />
-        <div className="group flex">
+        <div className="group flex text-xs md:text-base">
           <button className="group-hover:bg-[#05893E] active:bg-[#05893E] w-1 rounded"></button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -86,12 +86,12 @@ const Homepage = () => {
           </svg>
           <button
             onClick={() => setActive("dashboard")}
-            className="py-2 px-1 w-px rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium text-md"
+            className="py-2 px-1 w-px rounded text-left text-[#565d6d] hover:text-[#05893E] font-inter font-medium "
           >
             Dashboard
           </button>
         </div>
-        <div className="group flex">
+        <div className="group flex text-xs md:text-base">
           <button className="group-hover:bg-[#05893E] w-1 rounded"></button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +116,7 @@ const Homepage = () => {
             User
           </button>
         </div>
-        <div className="group flex">
+        <div className="group flex text-xs md:text-base">
           <button className="group-hover:bg-[#05893E] w-1 rounded"></button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -142,7 +142,7 @@ const Homepage = () => {
             Feedback
           </button>
         </div>
-        <div className="group flex">
+        <div className="group flex text-xs md:text-base">
           <button className="group-hover:bg-[#05893E] w-1 rounded"></button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +167,7 @@ const Homepage = () => {
             History
           </button>
         </div>
-        <div className="group flex">
+        <div className="group flex text-xs md:text-base">
           <button className="group-hover:bg-[#05893E] w-1 rounded"></button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +191,7 @@ const Homepage = () => {
           </button>
         </div>
 
-        <div className="group flex">
+        <div className="group flex text-xs md:text-base">
           <button className="group-hover:bg-[#05893E] w-1 rounded"></button>
           <svg
             xmlns="http://www.w3.org/2000/svg"

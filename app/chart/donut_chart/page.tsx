@@ -135,7 +135,7 @@ export default function Page(): React.ReactElement {
   ];
 
   return (
-    <main style={{ padding: 10 }}>
+    <main style={{ padding: 50 }}>
       <DonutChart slices={data} size={200} thickness={20} />
     </main>
   );

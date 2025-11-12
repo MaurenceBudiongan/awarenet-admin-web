@@ -1,6 +1,6 @@
 "use client";
-import DonutChart from "../donut_chart/page";
-import BarChart from "../bar_graph/page";
+import DonutChart from "../chart/donut_chart/page";
+import BarChart from "../chart/bar_graph/page";
 
 const Dashboard = () => {
   return (
@@ -51,7 +51,7 @@ const Dashboard = () => {
             <p className="text-xl font-semibold mb-3">
               Risk Category Breakdown
             </p>
-            <p className="p-8 text-md text-gray-500 font-semibold">
+            <p className="text-md text-gray-500 font-semibold">
               Distribution of security risk and malicious activities{" "}
             </p>
             <div>
