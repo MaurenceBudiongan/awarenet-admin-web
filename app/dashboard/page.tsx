@@ -8,8 +8,8 @@ const Dashboard = () => {
       <p className="ml-10 mt-4 text-4xl font-bold ">Dashboard Overview</p>
       <div className="flex flex-col">
         <div className="ml-10 mr-10 mt-10 mb-7 p-6 bg-[#F3F7FC] rounded-xl  flex flex-col justify-around gap-y-2">
-          <div className="flex flex-col items-center ">
-            <div className="flex items-center p-2 bg-black rounded-full">
+          <div className="flex flex-col items-start sm:items-center ">
+            <div className="ml-5 sm:ml-0 p-2 bg-black rounded-full">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
