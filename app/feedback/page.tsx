@@ -19,7 +19,7 @@ const Feedback = () => {
           </div>
         </div>
 
-        <div className=" rounded-xl grid grid-flow-row grid-cols-3 gap-6 ">
+        <div className=" rounded-xl grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-6 ">
           <div className="w-full bg-[#e5f6ff] rounded-lg flex-col justify-center p-5 overflow-hidden">
             <div className="flex space-x-4">
               <div>
