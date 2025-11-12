@@ -1,5 +1,6 @@
 "use client";
 import DonutChart from "../donut_chart/page";
+import BarChart from "../bar_graph/page";
 
 const Dashboard = () => {
   return (
@@ -42,12 +43,15 @@ const Dashboard = () => {
             <p className="text-md text-gray-500 font-semibold">
               Daily security scan activity.
             </p>
+            <div>
+              <BarChart />
+            </div>
           </div>
           <div className="p-8 rounded-xl w-full shadow-sm">
             <p className="text-xl font-semibold mb-3">
               Risk Category Breakdown
             </p>
-            <p className="text-md text-gray-500 font-semibold">
+            <p className="p-8 text-md text-gray-500 font-semibold">
               Distribution of security risk and malicious activities{" "}
             </p>
             <div>
