@@ -1,4 +1,5 @@
 "use client";
+import DonutChart from "../donut_chart/page";
 
 const Dashboard = () => {
   return (
@@ -35,7 +36,7 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <div className="ml-10 mr-10 rounded-lg  flex-row md:flex  justify-between gap-x-15 sm:space-y-5 h-100 ">
+        <div className="ml-10 mr-10 rounded-lg  flex-row md:flex  justify-between gap-x-15 sm:space-y-5  ">
           <div className="p-8 rounded-xl w-full shadow-sm ">
             <p className="text-xl font-semibold mb-3">Scans Analytic volume</p>
             <p className="text-md text-gray-500 font-semibold">
@@ -49,6 +50,9 @@ const Dashboard = () => {
             <p className="text-md text-gray-500 font-semibold">
               Distribution of security risk and malicious activities{" "}
             </p>
+            <div>
+              <DonutChart />
+            </div>
           </div>
           <div className="p-8 rounded w-full shadow-sm">
             <p className="text-xl font-semibold mb-3">User Activity Trends</p>
