@@ -8,7 +8,7 @@ export default function BarChartPage() {
   }
 
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const values = [150, 120, 180, 90, 220, 150, 100];
+  const values = [170, 220, 180, 240, 300, 280, 210];
   const maxValue = 300;
   const barColor = "#0d243a";
   const axisColor = "#565d6d";
