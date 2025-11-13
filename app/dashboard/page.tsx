@@ -1,6 +1,7 @@
 "use client";
 import DonutChart from "../chart/donut_chart/page";
 import BarChart from "../chart/bar_graph/page";
+import LineGraph from "../chart/line_graph/page";
 
 const Dashboard = () => {
   return (
@@ -58,11 +59,14 @@ const Dashboard = () => {
               <DonutChart />
             </div>
           </div>
-          <div className="p-8 rounded w-full shadow-sm">
+          <div className="p-8 rounded-xl w-full shadow-sm">
             <p className="text-xl font-semibold mb-3">User Activity Trends</p>
             <p className="text-md text-gray-500 font-semibold">
               Daily active user over the last 7 days.
             </p>
+            <div>
+              <LineGraph />
+            </div>
           </div>
         </div>
       </div>

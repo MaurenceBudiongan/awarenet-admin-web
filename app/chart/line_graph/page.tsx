@@ -4,13 +4,13 @@ import React from "react";
 
 const LineGraph = () => {
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const values = [30, 80, 50, 120, 90, 150, 110];
+  const values = [100, 150, 130, 180, 200, 190, 160];
   const maxValue = 200;
   const lineColor = "#0d243a";
   const dotColor = "#0d243a";
-  const axisColor = "#dee1e6";
+  const axisColor = "#565d6d";
 
-  const chartWidth = 700;
+  const chartWidth = 400;
   const chartHeight = 400;
   const padding = 60;
   const pointSpacing = (chartWidth - 2 * padding) / (days.length - 1);
@@ -45,12 +45,17 @@ const LineGraph = () => {
     .join(" ");
 
   return (
-    <div style={{ padding: "40px", background: "#f5f5f5", minHeight: "100vh" }}>
-      <h1>Weekly Activity Line Graph</h1>
+    <div
+      style={{
+        display: "flex",
+
+        backgroundColor: "red",
+      }}
+    >
       <svg
         width={chartWidth}
         height={chartHeight}
-        style={{ background: "#fff", border: "1px solid #ccc" }}
+        style={{ background: "#fff" }}
       >
         {/* Horizontal grid lines with labels */}
         {[0, 50, 100, 150, 200].map((yValue) => {
@@ -66,7 +71,6 @@ const LineGraph = () => {
                 x2={chartWidth - padding}
                 y2={yPos}
                 stroke={axisColor}
-                strokeDasharray="5,5"
                 strokeWidth="1"
               />
               <text
@@ -89,7 +93,7 @@ const LineGraph = () => {
           x2={padding}
           y2={chartHeight - padding}
           stroke={axisColor}
-          strokeWidth="2"
+          strokeWidth="1"
         />
 
         {/* X-axis */}
@@ -99,7 +103,7 @@ const LineGraph = () => {
           x2={chartWidth - padding}
           y2={chartHeight - padding}
           stroke={axisColor}
-          strokeWidth="2"
+          strokeWidth=".2"
         />
 
         {/* Line */}
