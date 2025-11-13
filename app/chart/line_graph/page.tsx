@@ -25,9 +25,23 @@ const LineGraph = () => {
     return { xPos, yPos, value: values[index] };
   });
 
-  // Create SVG path for line
+  // Create SVG path for smooth curve using cubic Bézier
   const pathD = points
-    .map((point, idx) => `${idx === 0 ? "M" : "L"} ${point.xPos} ${point.yPos}`)
+    .map((point, idx) => {
+      if (idx === 0) return `M ${point.xPos} ${point.yPos}`;
+
+      const prevPoint = points[idx - 1];
+      const nextPoint = points[idx + 1];
+
+      // Control point calculation for smooth curve
+      const cpX1 = prevPoint.xPos + (point.xPos - prevPoint.xPos) / 2;
+      const cpY1 = prevPoint.yPos;
+      const cpX2 =
+        point.xPos - (nextPoint ? (nextPoint.xPos - point.xPos) / 2 : 0);
+      const cpY2 = point.yPos;
+
+      return `C ${cpX1} ${cpY1} ${cpX2} ${cpY2} ${point.xPos} ${point.yPos}`;
+    })
     .join(" ");
 
   return (
