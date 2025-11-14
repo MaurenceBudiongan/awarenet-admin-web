@@ -9,7 +9,7 @@ const Dashboard = () => {
       <p className="ml-10 mt-4 text-lg sm:text-4xl font-bold ">
         Dashboard Overview
       </p>
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full ">
         <div className="ml-10 mr-10 mt-10 mb-7 p-6 bg-[#F3F7FC] rounded-xl  flex flex-col justify-around gap-y-2">
           <div className="flex flex-col items-start sm:items-center ">
             <div className="ml-5 sm:ml-0 p-2 bg-black rounded-full">

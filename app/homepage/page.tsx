@@ -7,7 +7,6 @@ import feedback from "../feedback/page";
 import history from "../history/page";
 import manage_awareness_guide from "../manage_awareness_guide/page";
 
-
 const Dashboard = dynamic(() => import("../dashboard/page"), { ssr: false });
 const User = dynamic(() => Promise.resolve(user), {
   ssr: false,
