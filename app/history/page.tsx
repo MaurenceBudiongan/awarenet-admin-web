@@ -5,8 +5,8 @@ const History = () => {
     <div>
       <p className="ml-10 mt-4 text-4xl font-bold">History</p>
       <div className="ml-10 mr-10 mt-10 mb-7 rounded-xl flex space-x-15">
-        <div className="flex w-full space-x-30">
-          <div className="w-full rounded-xl shadow-sm h-40 flex justify-center items-center space-x-4">
+        <div className="flex-row md:flex w-full space-x-20 space-y-10 sm:space-y-0">
+          <div className="w-full rounded-xl shadow-sm h-40 flex justify-center items-center space-x-4 ">
             <div className="w-20 flex flex-col space-y-2 ">
               <p className="text-[#565d6d]">Total Activities</p>
               <p className="text-2xl font-bold">1,250</p>
