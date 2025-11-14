@@ -3,7 +3,9 @@
 const Manage_Awareness_Guide = () => {
   return (
     <div className="">
-      <p className="ml-10 mt-4 text-4xl font-bold">Manage Awareness Guide</p>
+      <p className="ml-10 mt-4 text-lg sm:text-4xl font-bold">
+        Manage Awareness Guide
+      </p>
       <div className="ml-10 mr-10 mt-10 mb-7 p-6 rounded-xl flex flex-col justify-around gap-y-6">
         <div className="text-[#565d6d] text-sm">
           Fill in the information to create a new Guide, Tips & Tools.

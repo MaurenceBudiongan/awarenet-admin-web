@@ -4,7 +4,9 @@ import Image from "next/image";
 const Feedback = () => {
   return (
     <div>
-      <p className="ml-10 mt-4 text-4xl font-bold">Feedback Overview</p>
+      <p className="ml-10 mt-4 text-lg sm:text-4xl font-bold">
+        Feedback Overview
+      </p>
       <div className="ml-10 mr-10 mt-10 space-x-15 space-y-5 flex  flex-col ">
         <div className="w-full rounded-xl md:flex space-x-15 space-y-2 ">
           <div className="w-full bg-[#eafef3] rounded-lg space-y-4 h-50 flex flex-col justify-center p-10">
