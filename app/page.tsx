@@ -1,28 +1,15 @@
-"use client";
+import type { Metadata } from "next";
+import Login from "@/shared/Login";
 
-import { useRouter } from "next/navigation";
+export const metadata: Metadata = {
+  title: "AwareNet Admin",
+  description: "Login to AwareNet Admin",
+};
 
-const LOGIN_PAGE = "/login";
-
-export default function Home() {
-  const router = useRouter();
-
-  const goToLoginPage = () => {
-    router.push(LOGIN_PAGE);
-  };
-
+export default function Page() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <h1 className="text-white">Awarenet Admin Web</h1>
-
-        <div
-          onClick={goToLoginPage}
-          className="text-white cursor-pointer hover:text-blue-200"
-        >
-          Go to Login page
-        </div>
-      </main>
+    <div className="max-w-2xl">
+      <Login />
     </div>
   );
 }

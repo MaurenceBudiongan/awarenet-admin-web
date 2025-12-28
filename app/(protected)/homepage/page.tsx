@@ -57,7 +57,7 @@ const Homepage = () => {
   }
   return (
     <div className="flex h-screen">
-      <nav className="w-120 text-white flex flex-col p-6 space-y-6 border-r-3 border-gray-100">
+      {/* <nav className="w-120 text-white flex flex-col p-6 space-y-6 border-r-3 border-gray-100">
         <Image
           src="/logo.png"
           alt="AwareNet Logo"
@@ -216,7 +216,7 @@ const Homepage = () => {
             Logout
           </button>
         </div>
-      </nav>
+      </nav> */}
 
       <main className="relative flex flex-col space-y-6 w-full">
         <header className="p-4 border-b-3 border-gray-100 ">
