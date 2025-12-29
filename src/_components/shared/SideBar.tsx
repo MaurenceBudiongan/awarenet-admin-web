@@ -8,6 +8,7 @@ import LogoutModal from "@/components/common/Modal";
 import { useAppRoutes } from "@/store/useAppRoutes";
 import cn from "@/utils/cn";
 import { on } from "events";
+import { Button } from "../common/Button";
 
 const items = [
   { name: "Dashboard", route: "/dashboard" },
@@ -69,25 +70,19 @@ export default function SideBar() {
         </div>
       </div>
 
-      <LogoutModal isOpen={isModalOpen} onClose={onModalClose}>
+      <LogoutModal isOpen={isModalOpen}>
         <div className="flex h-auto w-full flex-col items-center justify-between p-8">
           <div className="text-lg font-bold">Confirm Logout</div>
           <div className="pt-2 text-gray-500">
             Are you sure you want to logout?
           </div>
           <div className="flex justify-end gap-4 pt-8">
-            <button
-              className="cursor-pointer rounded-md border border-black px-4 py-2 text-black hover:bg-gray-200"
-              onClick={onModalClose}
-            >
+            <Button variant="secondary-outline" onClick={onModalClose}>
               Close
-            </button>
-            <button
-              className="cursor-pointer rounded-md bg-black px-4 py-2 text-white hover:bg-gray-800"
-              onClick={onLogout}
-            >
+            </Button>
+            <Button variant="secondary" onClick={onLogout}>
               Confirm
-            </button>
+            </Button>
           </div>
         </div>
       </LogoutModal>
