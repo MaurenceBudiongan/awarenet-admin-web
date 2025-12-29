@@ -1,12 +1,11 @@
 "use client";
 
-import "./globals.css";
+import "@/components/styles/globals.css";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { AuthProvider } from "@descope/react-sdk";
 
 import TopBar from "@/shared/TopBar";
 import Content from "@/shared/Content";
-import AuthGuard from "./_components/shared/AuthGuard";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

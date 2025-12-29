@@ -20,10 +20,11 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./app/*"],
-      "@/components/*": ["./app/_components/*"],
-      "@/shared/*": ["./app/_components/shared/*"],
-      "@/utils/*": ["./app/_utils/*"]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/_components/*"],
+      "@/shared/*": ["./src/_components/shared/*"],
+      "@/utils/*": ["./src/_utils/*"],
+      "@/store/*": ["./src/_store/*"]
     }
   },
   "include": [

@@ -6,7 +6,7 @@ import { Descope } from "@descope/nextjs-sdk";
 import { useRouter } from "next/navigation";
 
 import Loading from "@/components/common/Loading";
-import cn from "@/utils/cn";
+import cn from "@/_utils/cn";
 
 export default function Login() {
   const router = useRouter();
