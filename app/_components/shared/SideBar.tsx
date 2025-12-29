@@ -22,12 +22,12 @@ export default function SideBar() {
   };
 
   return (
-    <nav className="h-full bg-zinc-100 z-10 left-0 top-0 w-50 flex py-2 px-4 justify-between flex-col">
-      <div className="flex flex-col gap-1">
+    <nav className="top-0 left-0 z-10 flex h-full min-w-50 flex-col justify-between border-r border-zinc-300 bg-zinc-100 px-4 py-2 shadow-lg">
+      <div className="flex cursor-pointer flex-col gap-1">
         {items.map((item) => (
           <div
             key={item.name}
-            className="rounded-lg px-2 p-2 hover:bg-gray-200"
+            className="rounded-lg p-2 px-2 hover:bg-gray-200"
           >
             <Link href={item.route} className="text-text-gray-900 text-md">
               {item.name}
@@ -35,7 +35,7 @@ export default function SideBar() {
           </div>
         ))}
 
-        <div className="rounded-md px-2 p-2 hover:bg-gray-200 cursor-pointer">
+        <div className="rounded-md p-2 px-2 hover:bg-gray-200">
           <div className="text-text-gray-900 text-md" onClick={onLogout}>
             Logout
           </div>

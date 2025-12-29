@@ -20,8 +20,10 @@
     ],
     "baseUrl": ".",
     "paths": {
+      "@/*": ["./app/*"],
       "@/components/*": ["./app/_components/*"],
-      "@/shared/*": ["./app/_components/shared/*"]
+      "@/shared/*": ["./app/_components/shared/*"],
+      "@/utils/*": ["./app/_utils/*"]
     }
   },
   "include": [
