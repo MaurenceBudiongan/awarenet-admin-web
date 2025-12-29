@@ -1,18 +1,23 @@
-"use client";
+import type { Metadata } from "next";
+
 import DonutChart from "../chart/donut_chart/page";
 import BarChart from "../chart/bar_graph/page";
 import LineGraph from "../chart/line_graph/page";
 
+export const metadata: Metadata = {
+  title: "AwareNet - Dashboard",
+};
+
 const Dashboard = () => {
   return (
     <div>
-      <p className="ml-10 mt-4 text-lg sm:text-4xl font-bold ">
+      <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">
         Dashboard Overview
       </p>
-      <div className="flex flex-col w-full ">
-        <div className="ml-10 mr-10 mt-10 mb-7 p-6 bg-[#F3F7FC] rounded-xl  flex flex-col justify-around gap-y-2">
-          <div className="flex flex-col items-start sm:items-center ">
-            <div className="ml-5 sm:ml-0 p-2 bg-black rounded-full">
+      <div className="flex w-full flex-col">
+        <div className="mt-10 mr-10 mb-7 ml-10 flex flex-col justify-around gap-y-2 rounded-xl bg-[#F3F7FC] p-6">
+          <div className="flex flex-col items-start sm:items-center">
+            <div className="ml-5 rounded-full bg-black p-2 sm:ml-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30"
@@ -29,43 +34,43 @@ const Dashboard = () => {
                 <path d="m9 12 2 2 4-4" />
               </svg>
             </div>
-            <p className="ml-5 mt-5 text-md text-gray-500 font-bold">
+            <p className="text-md mt-5 ml-5 font-bold text-gray-500">
               Total Active Users
             </p>
           </div>
-          <div className="flex flex-col ">
-            <p className="ml-5 text-5xl font-bold ">2,450</p>
-            <p className="ml-5 text-md text-gray-500 font-semibold mt-3">
+          <div className="flex flex-col">
+            <p className="ml-5 text-5xl font-bold">2,450</p>
+            <p className="text-md mt-3 ml-5 font-semibold text-gray-500">
               Currently online and active
             </p>
           </div>
         </div>
-        <div className="ml-10 mr-10 rounded-lg  flex-row md:flex  justify-between gap-x-15 space-y-5 sm:space-y-0 md:space-y-0 ">
-          <div className="p-8 rounded-xl w-full shadow-sm ">
-            <p className="text-md sm:text-xl font-semibold mb-3">
+        <div className="mr-10 ml-10 flex-row justify-between space-y-5 gap-x-15 rounded-lg sm:space-y-0 md:flex md:space-y-0">
+          <div className="w-full rounded-xl p-8 shadow-sm">
+            <p className="text-md mb-3 font-semibold sm:text-xl">
               Scans Analytic volume
             </p>
-            <p className="text-md text-gray-500 font-semibold">
+            <p className="text-md font-semibold text-gray-500">
               Daily security scan activity.
             </p>
             <div>
               <BarChart />
             </div>
           </div>
-          <div className="p-8 rounded-xl w-full shadow-sm">
-            <p className="text-xl font-semibold mb-3">
+          <div className="w-full rounded-xl p-8 shadow-sm">
+            <p className="mb-3 text-xl font-semibold">
               Risk Category Breakdown
             </p>
-            <p className="text-md text-gray-500 font-semibold">
+            <p className="text-md font-semibold text-gray-500">
               Distribution of security risk and malicious activities{" "}
             </p>
             <div>
               <DonutChart />
             </div>
           </div>
-          <div className="p-8 rounded-xl w-full shadow-sm">
-            <p className="text-xl font-semibold mb-3">User Activity Trends</p>
-            <p className="text-md text-gray-500 font-semibold">
+          <div className="w-full rounded-xl p-8 shadow-sm">
+            <p className="mb-3 text-xl font-semibold">User Activity Trends</p>
+            <p className="text-md font-semibold text-gray-500">
               Daily active user over the last 7 days.
             </p>
             <div>
