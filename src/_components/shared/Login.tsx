@@ -6,20 +6,25 @@ import { Descope } from "@descope/nextjs-sdk";
 import { useRouter } from "next/navigation";
 
 import Loading from "@/components/common/Loading";
-import cn from "@/_utils/cn";
+import { useAppRoutes } from "@/store/useAppRoutes";
+import cn from "@/utils/cn";
 
 export default function Login() {
   const router = useRouter();
   const { isSessionLoading, isAuthenticated } = useSession();
+  const { resetRoute } = useAppRoutes();
   const [showLoginForm, setShowLoginForm] = useState(false);
 
   const isLoggedIn = !isSessionLoading && isAuthenticated;
 
   useEffect(() => {
-    if (isLoggedIn) router.push("/dashboard");
+    if (isLoggedIn) {
+      handleLoginSuccess();
+    }
   }, [isSessionLoading, isAuthenticated, router]);
 
-  const handleLoginSuccess = async () => {
+  const handleLoginSuccess = () => {
+    resetRoute();
     router.push("/dashboard");
   };
 
