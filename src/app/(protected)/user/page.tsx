@@ -1,6 +1,6 @@
 const User = () => {
   return (
-    <div className="">
+    <div className="w-full">
       <p className="mt-4 mb-6 ml-10 text-lg font-bold sm:text-4xl">
         AwareNet User
       </p>

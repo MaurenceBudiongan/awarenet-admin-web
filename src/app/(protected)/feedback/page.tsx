@@ -3,26 +3,26 @@ import Image from "next/image";
 
 const Feedback = () => {
   return (
-    <div>
-      <p className="ml-10 mt-4 text-lg sm:text-4xl font-bold">
+    <div className="w-full">
+      <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">
         Feedback Overview
       </p>
-      <div className="ml-10 mr-10 mt-10 space-x-15 space-y-5 flex  flex-col ">
-        <div className="w-full rounded-xl md:flex space-x-15 space-y-2 ">
-          <div className="w-full bg-[#eafef3] rounded-lg space-y-4 h-50 flex flex-col justify-center p-10">
-            <p className="text-xl font-semibold ">Total Feedback Entries</p>
+      <div className="mt-10 mr-10 ml-10 flex flex-col space-y-5 space-x-15">
+        <div className="w-full space-y-2 space-x-15 rounded-xl md:flex">
+          <div className="flex h-50 w-full flex-col justify-center space-y-4 rounded-lg bg-[#eafef3] p-10">
+            <p className="text-xl font-semibold">Total Feedback Entries</p>
             <p className="text-3xl font-bold text-[#05893E]">9</p>
             <p className="text-md text-gray-500">Across all users</p>
           </div>
-          <div className="w-full bg-[#eafef3] rounded-lg space-y-4 h-50 flex flex-col justify-center p-10">
+          <div className="flex h-50 w-full flex-col justify-center space-y-4 rounded-lg bg-[#eafef3] p-10">
             <p className="text-xl font-semibold">Average Rating</p>
             <p className="text-3xl font-bold text-[#05893E]">4.1 / 5</p>
             <p className="text-md text-gray-500">Based on all submissions</p>
           </div>
         </div>
 
-        <div className=" rounded-xl grid grid-flow-row grid-cols-1 sm:grid-cols-3 gap-6 ">
-          <div className="w-full bg-[#e5f6ff] rounded-lg flex-col justify-center p-5 overflow-hidden">
+        <div className="grid grid-flow-row grid-cols-1 gap-6 rounded-xl sm:grid-cols-3">
+          <div className="w-full flex-col justify-center overflow-hidden rounded-lg bg-[#e5f6ff] p-5">
             <div className="flex space-x-4">
               <div>
                 <Image
@@ -30,7 +30,7 @@ const Feedback = () => {
                   alt="AwareNet Logo"
                   width={50}
                   height={50}
-                  className="rounded-full "
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -90,14 +90,14 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button className="text-[#05893E] float-right">
+                <button className="float-right text-[#05893E]">
                   View Details
                 </button>
               </p>
             </div>
           </div>
 
-          <div className="w-full bg-[#e5f6ff] rounded-lg flex flex-col justify-center p-5 overflow-hidden">
+          <div className="flex w-full flex-col justify-center overflow-hidden rounded-lg bg-[#e5f6ff] p-5">
             <div className="flex space-x-4">
               <div>
                 <Image
@@ -105,7 +105,7 @@ const Feedback = () => {
                   alt="AwareNet Logo"
                   width={50}
                   height={50}
-                  className="rounded-full "
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -165,14 +165,14 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button className="text-[#05893E] float-right">
+                <button className="float-right text-[#05893E]">
                   View Details
                 </button>
               </p>
             </div>
           </div>
 
-          <div className="w-full bg-[#e5f6ff] rounded-lg flex flex-col justify-center p-5 overflow-hidden">
+          <div className="flex w-full flex-col justify-center overflow-hidden rounded-lg bg-[#e5f6ff] p-5">
             <div className="flex space-x-4">
               <div>
                 <Image
@@ -180,7 +180,7 @@ const Feedback = () => {
                   alt="AwareNet Logo"
                   width={50}
                   height={50}
-                  className="rounded-full "
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -240,14 +240,14 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button className="text-[#05893E] float-right">
+                <button className="float-right text-[#05893E]">
                   View Details
                 </button>
               </p>
             </div>
           </div>
 
-          <div className="w-full bg-[#e5f6ff] rounded-lg flex-col justify-center p-5 overflow-hidden">
+          <div className="w-full flex-col justify-center overflow-hidden rounded-lg bg-[#e5f6ff] p-5">
             <div className="flex space-x-4">
               <div>
                 <Image
@@ -255,7 +255,7 @@ const Feedback = () => {
                   alt="AwareNet Logo"
                   width={50}
                   height={50}
-                  className="rounded-full "
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -315,14 +315,14 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button className="text-[#05893E] float-right">
+                <button className="float-right text-[#05893E]">
                   View Details
                 </button>
               </p>
             </div>
           </div>
 
-          <div className="w-full bg-[#e5f6ff] rounded-lg flex flex-col justify-center p-5 overflow-hidden">
+          <div className="flex w-full flex-col justify-center overflow-hidden rounded-lg bg-[#e5f6ff] p-5">
             <div className="flex space-x-4">
               <div>
                 <Image
@@ -330,7 +330,7 @@ const Feedback = () => {
                   alt="AwareNet Logo"
                   width={50}
                   height={50}
-                  className="rounded-full "
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -390,14 +390,14 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button className="text-[#05893E] float-right">
+                <button className="float-right text-[#05893E]">
                   View Details
                 </button>
               </p>
             </div>
           </div>
 
-          <div className="w-full bg-[#e5f6ff] rounded-lg flex flex-col justify-center p-5 overflow-hidden">
+          <div className="flex w-full flex-col justify-center overflow-hidden rounded-lg bg-[#e5f6ff] p-5">
             <div className="flex space-x-4">
               <div>
                 <Image
@@ -405,7 +405,7 @@ const Feedback = () => {
                   alt="AwareNet Logo"
                   width={50}
                   height={50}
-                  className="rounded-full "
+                  className="rounded-full"
                 />
               </div>
               <div>
@@ -465,7 +465,7 @@ const Feedback = () => {
             </div>
             <div>
               <p>
-                <button className="text-[#05893E] float-right">
+                <button className="float-right text-[#05893E]">
                   View Details
                 </button>
               </p>
