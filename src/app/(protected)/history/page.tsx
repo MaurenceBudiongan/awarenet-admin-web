@@ -102,6 +102,131 @@ const History = () => {
           </div>
         </div>
       </div>
+
+      <div className="mt-10 mr-10 mb-7 ml-10 flex space-x-15 overflow-x-auto rounded-xl border border-[#dee1e6] p-2 shadow-xs">
+        <table className="min-w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="text-md p-4 text-left text-[#565d6d]"></th>
+              <th className="text-md p-4 text-left text-[#565d6d]">
+                Activity Type
+              </th>
+              <th className="text-md p-4 text-left text-[#565d6d]">
+                Description
+              </th>
+              <th className="text-md p-4 text-left text-[#565d6d]">User</th>
+              <th className="text-md p-4 text-left text-[#565d6d]">Timestap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="border-t border-t-[#dee1e6]">
+              <td>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-message-circle-icon lucide-message-circle"
+                  color="#16A34A"
+                >
+                  <path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719" />
+                </svg>
+              </td>
+              <td className="p-4">Submitted feedback</td>
+              <td className="p-4 text-[#565d6d]">Submitted feedback</td>
+              <td className="p-4 text-[#565d6d]">Maurence B.</td>
+              <td className="p-4 text-[#565d6d]">
+                2026-09-01 <br /> 10:30 AM
+              </td>
+            </tr>
+            <tr className="border-t border-t-[#dee1e6]">
+              <td>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-circle-check-big-icon lucide-circle-check-big"
+                  color="#EF4444"
+                >
+                  <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+                  <path d="m9 11 3 3L22 4" />
+                </svg>
+              </td>
+              <td className="p-4">Verified Link</td>
+              <td className="p-4 text-[#565d6d]">Verified link</td>
+              <td className="p-4 text-[#565d6d]">Joshua A.</td>
+              <td className="p-4 text-[#565d6d]">
+                2026-09-01 <br /> 10:30 AM
+              </td>
+            </tr>
+            <tr className="border-t border-t-[#dee1e6]">
+              <td>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-scan-icon lucide-scan"
+                  color="#F59E0B"
+                >
+                  <path d="M3 7V5a2 2 0 0 1 2-2h2" />
+                  <path d="M17 3h2a2 2 0 0 1 2 2v2" />
+                  <path d="M21 17v2a2 2 0 0 1-2 2h-2" />
+                  <path d="M7 21H5a2 2 0 0 1-2-2v-2" />
+                </svg>
+              </td>
+              <td className="p-4">Posting</td>
+              <td className="p-4 text-[#565d6d]">Submitted feedback </td>
+              <td className="p-4 text-[#565d6d]">Angelica E.</td>
+              <td className="p-4 text-[#565d6d]">
+                2026-09-01 <br /> 10:30 AM
+              </td>
+            </tr>
+            <tr className="border-t border-t-[#dee1e6]">
+              <td>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-circle-check-big-icon lucide-circle-check-big"
+                  color="#EF4444"
+                >
+                  <path d="M21.801 10A10 10 0 1 1 17 3.335" />
+                  <path d="m9 11 3 3L22 4" />
+                </svg>
+              </td>
+              <td className="p-4">Submitted feedback</td>
+              <td className="p-4 text-[#565d6d]">Verified link</td>
+              <td className="p-4 text-[#565d6d]"> bob_k</td>
+              <td className="p-4 text-[#565d6d]">
+                2026-09-01 <br /> 10:30 AM
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
