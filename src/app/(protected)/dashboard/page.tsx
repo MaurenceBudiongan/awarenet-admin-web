@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const Dashboard = () => {
   return (
-    <div>
+    <div className="w-full">
       <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">
         Dashboard Overview
       </p>

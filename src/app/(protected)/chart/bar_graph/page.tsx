@@ -21,12 +21,8 @@ export default function BarChartPage() {
   const radius = 5;
 
   return (
-    <div className="flex justify-center items-center">
-      <svg
-        width={chartWidth}
-        height={chartHeight}
-        style={{ background: "#fff" }}
-      >
+    <div className="flex items-center justify-center">
+      <svg width={chartWidth} height={chartHeight}>
         {/* Horizontal grid lines with labels */}
         {[0, 75, 150, 225, 300].map((yValue) => {
           const yPos =
