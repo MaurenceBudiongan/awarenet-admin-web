@@ -44,7 +44,7 @@ export default function Login() {
       <div
         className={cn(
           !showLoginForm && "hidden",
-          "xs:min-w-auto flex rounded-xl border border-zinc-300 bg-white p-8 shadow-lg md:min-w-lg",
+          "xs:min-w-auto flex h-96 rounded-xl border border-zinc-300 bg-white p-8 shadow-lg md:min-w-lg",
         )}
       >
         <Descope
