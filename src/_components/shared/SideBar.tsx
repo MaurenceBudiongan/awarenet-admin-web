@@ -44,7 +44,7 @@ export default function SideBar() {
   };
 
   return (
-    <nav className="top-0 left-0 z-10 flex min-w-50 flex-col justify-between border-r border-zinc-300 bg-zinc-100 px-4 py-2 shadow-lg">
+    <nav className="fixed flex h-187 min-w-45 flex-col justify-between border-r border-zinc-300 bg-zinc-100 px-4 py-2 shadow-lg">
       <div className="flex cursor-pointer flex-col gap-1">
         {items.map((item) => (
           <Link

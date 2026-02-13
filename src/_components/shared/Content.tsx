@@ -6,18 +6,16 @@ import TopBar from "./TopBar";
 
 export default function Content({ children }: PropsWithChildren) {
   return (
-    <div>
-      <div className="fixed w-full">
+    <div className="relative">
+      <div className="w-full">
         <TopBar />
       </div>
-      <div className="left-0 flex w-full pt-14">
-        <div className="fixed">
+      <div className="relative flex w-full pt-14">
+        <div className="">
           <SideBar />
         </div>
 
-        <div className="-z-10 ml-50 w-full">
-          <Main>{children}</Main>
-        </div>
+        <Main>{children}</Main>
       </div>
     </div>
   );
