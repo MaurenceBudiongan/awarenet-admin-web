@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 
 const Dashboard = () => {
   return (
-    <div className="w-full">
-      <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">
-        Dashboard Overview
-      </p>
-      <div className="flex w-full flex-col">
+    <div className="w-full px-4 sm:px-8 lg:px-12">
+      <p className="mt-6 text-2xl font-bold sm:text-4xl">Dashboard Overview</p>
+
+      {/* Total Active Users Card */}
+      <div className="mt-8 rounded-xl bg-[#F3F7FC] p-6">
         <div className="mt-10 mr-10 mb-7 ml-10 flex flex-col justify-around gap-y-2 rounded-xl bg-[#F3F7FC] p-6">
           <div className="flex flex-col items-start sm:items-center">
             <div className="ml-5 rounded-full bg-black p-2 sm:ml-0">
@@ -45,42 +45,38 @@ const Dashboard = () => {
             </p>
           </div>
         </div>
-        <div className="mr-10 ml-10 flex-row justify-between space-y-5 gap-x-15 rounded-lg sm:space-y-0 md:flex md:space-y-0">
-          <div className="w-full rounded-xl p-8 shadow-sm">
-            <p className="text-md mb-3 font-semibold sm:text-xl">
-              Scans Analytic volume
-            </p>
-            <p className="text-md font-semibold text-gray-500">
-              Daily security scan activity.
-            </p>
-            <div>
-              <BarChart />
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-8 shadow-sm">
-            <p className="mb-3 text-xl font-semibold">
-              Risk Category Breakdown
-            </p>
-            <p className="text-md font-semibold text-gray-500">
-              Distribution of security risk and malicious activities{" "}
-            </p>
-            <div>
-              <DonutChart />
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-8 shadow-sm">
-            <p className="mb-3 text-xl font-semibold">User Activity Trends</p>
-            <p className="text-md font-semibold text-gray-500">
-              Daily active user over the last 7 days.
-            </p>
-            <div>
-              <LineGraph />
-            </div>
-          </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        {/* Bar Chart */}
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <p className="mb-2 text-lg font-semibold">Scans Analytic Volume</p>
+          <p className="mb-4 text-sm text-gray-500">
+            Daily security scan activity.
+          </p>
+          <BarChart />
+        </div>
+
+        {/* Donut Chart */}
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <p className="mb-2 text-lg font-semibold">Risk Category Breakdown</p>
+          <p className="mb-4 text-sm text-gray-500">
+            Distribution of security risk and malicious activities
+          </p>
+          <DonutChart />
+        </div>
+
+        {/* Line Graph */}
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <p className="mb-2 text-lg font-semibold">User Activity Trends</p>
+          <p className="mb-4 text-sm text-gray-500">
+            Daily active users over the last 7 days.
+          </p>
+          <LineGraph />
         </div>
       </div>
     </div>
   );
 };
-
 export default Dashboard;
