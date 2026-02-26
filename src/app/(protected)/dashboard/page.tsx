@@ -10,67 +10,61 @@ export const metadata: Metadata = {
 
 const Dashboard = () => {
   return (
-    <div className="w-full px-4 sm:px-8 lg:px-12">
-      <p className="mt-6 text-2xl font-bold sm:text-4xl">Dashboard Overview</p>
+    <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
+      <div className="rounded-2xl bg-gradient-to-r from-[#0b1f35] via-[#12365d] to-[#1c4f80] p-6 text-white shadow-lg sm:p-8">
+        <p className="text-sm tracking-[0.2em] text-cyan-100 uppercase">
+          Dashboard
+        </p>
+        <p className="mt-2 text-2xl font-bold sm:text-4xl">AwareNet Statistics</p>
+        <p className="mt-2 text-sm text-cyan-50 sm:text-base">
+          Real-time security visibility across users, risks, and scanning activity.
+        </p>
 
-      {/* Total Active Users Card */}
-      <div className="mt-8 rounded-xl bg-[#F3F7FC] p-6">
-        <div className="mt-10 mr-10 mb-7 ml-10 flex flex-col justify-around gap-y-2 rounded-xl bg-[#F3F7FC] p-6">
-          <div className="flex flex-col items-start sm:items-center">
-            <div className="ml-5 rounded-full bg-black p-2 sm:ml-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-shield-check-icon lucide-shield-check text-white"
-              >
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
-            </div>
-            <p className="text-md mt-5 ml-5 font-bold text-gray-500">
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+            <p className="text-xs font-semibold tracking-wider text-cyan-100 uppercase">
               Total Active Users
             </p>
+            <p className="mt-2 text-3xl font-bold">2,450</p>
+            <p className="mt-1 text-xs text-cyan-100">Currently online and active</p>
           </div>
-          <div className="flex flex-col">
-            <p className="ml-5 text-5xl font-bold">2,450</p>
-            <p className="text-md mt-3 ml-5 font-semibold text-gray-500">
-              Currently online and active
+          <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+            <p className="text-xs font-semibold tracking-wider text-cyan-100 uppercase">
+              Today Scans
             </p>
+            <p className="mt-2 text-3xl font-bold">8,914</p>
+            <p className="mt-1 text-xs text-cyan-100">+12.4% vs yesterday</p>
+          </div>
+          <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+            <p className="text-xs font-semibold tracking-wider text-cyan-100 uppercase">
+              High Risk Alerts
+            </p>
+            <p className="mt-2 text-3xl font-bold">37</p>
+            <p className="mt-1 text-xs text-cyan-100">Needs analyst review</p>
           </div>
         </div>
       </div>
 
-      {/* Charts Section */}
-      <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {/* Bar Chart */}
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <p className="mb-2 text-lg font-semibold">Scans Analytic Volume</p>
-          <p className="mb-4 text-sm text-gray-500">
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <p className="text-lg font-semibold text-zinc-900">Scans Analytic Volume</p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500">
             Daily security scan activity.
           </p>
           <BarChart />
         </div>
 
-        {/* Donut Chart */}
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <p className="mb-2 text-lg font-semibold">Risk Category Breakdown</p>
-          <p className="mb-4 text-sm text-gray-500">
-            Distribution of security risk and malicious activities
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <p className="text-lg font-semibold text-zinc-900">Risk Category Breakdown</p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500">
+            Distribution of security risk and malicious activities.
           </p>
           <DonutChart />
         </div>
 
-        {/* Line Graph */}
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <p className="mb-2 text-lg font-semibold">User Activity Trends</p>
-          <p className="mb-4 text-sm text-gray-500">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <p className="text-lg font-semibold text-zinc-900">User Activity Trends</p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500">
             Daily active users over the last 7 days.
           </p>
           <LineGraph />

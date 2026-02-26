@@ -16,6 +16,7 @@ const items = [
   { name: "Feedback", route: "/feedback" },
   { name: "History", route: "/history" },
   { name: "Awareness Guide", route: "/awareness-guide" },
+  { name: "Reports", route: "/reports" },
 ];
 
 export default function SideBar() {
