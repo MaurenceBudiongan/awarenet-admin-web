@@ -28,10 +28,10 @@ export default function Modal({
   return createPortal(
     <>
       <div
-        className="absolute top-0 left-0 z-20 flex h-screen w-screen bg-black/80"
+        className="fixed top-0 left-0 z-[100] flex h-screen w-screen bg-black/80"
         onClick={onClickOutside}
       >
-        <div className="z-40 flex h-screen w-screen items-center justify-center">
+        <div className="z-[110] flex h-screen w-screen items-center justify-center">
           <div
             className="m-auto min-w-2xl rounded-xl bg-white shadow-lg"
             onClick={(event) => event.stopPropagation()}
