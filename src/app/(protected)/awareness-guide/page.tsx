@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Timestamp,
   collection,
@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 
 import Modal from "@/components/common/Modal";
+import Pagination from "@/components/common/Pagination";
 import { db } from "lib/firebase";
 
 type ToastState = {
@@ -34,6 +35,16 @@ const Manage_Awareness_Guide = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [guideToDelete, setGuideToDelete] = useState<AwarenessGuide | null>(null);
   const [toast, setToast] = useState<ToastState>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageSize = 4;
+  const totalPages = Math.max(1, Math.ceil(guides.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedGuides = useMemo(() => {
+    const startIndex = (safeCurrentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return guides.slice(startIndex, endIndex);
+  }, [guides, safeCurrentPage]);
 
   useEffect(() => {
     const fetchGuides = async () => {
@@ -199,7 +210,7 @@ const Manage_Awareness_Guide = () => {
 
         {!isLoading && guides.length > 0 ? (
           <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {guides.map((guide) => (
+            {paginatedGuides.map((guide) => (
               <article
                 key={guide.id}
                 className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
@@ -237,6 +248,16 @@ const Manage_Awareness_Guide = () => {
               </article>
             ))}
           </div>
+        ) : null}
+        {!isLoading && guides.length > 0 ? (
+          <Pagination
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => {
+              if (page < 1 || page > totalPages) return;
+              setCurrentPage(page);
+            }}
+          />
         ) : null}
       </div>
     </div>
