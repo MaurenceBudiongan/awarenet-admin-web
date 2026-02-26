@@ -12,7 +12,7 @@ import { Button } from "../common/Button";
 
 const items = [
   { name: "Dashboard", route: "/dashboard" },
-  { name: "User", route: "/user" },
+  { name: "Users", route: "/user" },
   { name: "Feedback", route: "/feedback" },
   { name: "History", route: "/history" },
   { name: "Awareness Guide", route: "/awareness-guide" },
@@ -61,31 +61,6 @@ export default function SideBar() {
         ))}
       </div>
 
-      <div className="rounded-md p-2 px-2 hover:bg-gray-200">
-        <div
-          className="text-text-gray-900 text-md cursor-pointer"
-          onClick={onClickLogout}
-        >
-          Logout
-        </div>
-      </div>
-
-      <LogoutModal isOpen={isModalOpen}>
-        <div className="flex h-auto w-full flex-col items-center justify-between p-8">
-          <div className="text-lg font-bold">Confirm Logout</div>
-          <div className="pt-2 text-gray-500">
-            Are you sure you want to logout?
-          </div>
-          <div className="flex justify-end gap-4 pt-8">
-            <Button variant="secondary-outline" onClick={onModalClose}>
-              Close
-            </Button>
-            <Button variant="secondary" onClick={onLogout}>
-              Confirm
-            </Button>
-          </div>
-        </div>
-      </LogoutModal>
     </nav>
   );
 }

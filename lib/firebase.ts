@@ -30,10 +30,6 @@ const firebaseStorageBucket = requireEnv(
   'NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET (or FIREBASE_STORAGE_BUCKET)'
 );
 
-const firebaseMessagingSenderId = requireEnv(
-  process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID ?? process.env.FIREBASE_MESSAGING_SENDER_ID,
-  'NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID (or FIREBASE_MESSAGING_SENDER_ID)'
-);
 
 const firebaseAppId = requireEnv(
   process.env.NEXT_PUBLIC_FIREBASE_APP_ID ?? process.env.FIREBASE_APP_ID,
@@ -45,7 +41,6 @@ const firebaseConfig = {
   authDomain: firebaseAuthDomain,
   projectId: firebaseProjectId,
   storageBucket: firebaseStorageBucket,
-  messagingSenderId: firebaseMessagingSenderId,
   appId: firebaseAppId,
 };
 

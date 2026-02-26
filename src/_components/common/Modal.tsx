@@ -32,7 +32,10 @@ export default function Modal({
         onClick={onClickOutside}
       >
         <div className="z-40 flex h-screen w-screen items-center justify-center">
-          <div className="m-auto min-w-2xl rounded-xl bg-white shadow-lg">
+          <div
+            className="m-auto min-w-2xl rounded-xl bg-white shadow-lg"
+            onClick={(event) => event.stopPropagation()}
+          >
             {children}
           </div>
         </div>
