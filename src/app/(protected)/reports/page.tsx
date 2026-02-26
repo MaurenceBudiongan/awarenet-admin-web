@@ -38,7 +38,7 @@ const reports = [
 const ReportsPage = () => {
   return (
     <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
-      <div className="rounded-2xl bg-gradient-to-r from-[#0f172a] via-[#0f3a53] to-[#0b6a6a] p-6 text-white shadow-lg sm:p-8">
+      <div className="rounded-2xl bg-linear-to-r from-[#0f172a] via-[#0f3a53] to-[#0b6a6a] p-6 text-white shadow-lg sm:p-8">
         <p className="text-xs tracking-[0.25em] text-cyan-100 uppercase">Reports Hub</p>
         <h1 className="mt-2 text-2xl font-bold sm:text-4xl">Admin Reports</h1>
         <p className="mt-2 max-w-2xl text-sm text-cyan-50 sm:text-base">

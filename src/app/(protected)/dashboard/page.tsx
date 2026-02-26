@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const Dashboard = () => {
   return (
     <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
-      <div className="rounded-2xl bg-gradient-to-r from-[#0b1f35] via-[#12365d] to-[#1c4f80] p-6 text-white shadow-lg sm:p-8">
+      <div className="rounded-2xl bg-linear-to-r from-[#0b1f35] via-[#12365d] to-[#1c4f80] p-6 text-white shadow-lg sm:p-8">
         <p className="text-sm tracking-[0.2em] text-cyan-100 uppercase">
           Dashboard
         </p>
