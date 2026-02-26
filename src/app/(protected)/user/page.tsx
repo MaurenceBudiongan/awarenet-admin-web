@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 
 import Modal from "@/components/common/Modal";
+import Pagination from "@/components/common/Pagination";
 import { db } from "lib/firebase";
 
 type FirebaseUser = {
@@ -89,11 +90,21 @@ const User = () => {
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState<DurationKey>("8h");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageSize = 6;
+  const totalPages = Math.max(1, Math.ceil(users.length / pageSize));
 
   const isSelectedUserDeactivated = useMemo(
     () => isDeactivated(selectedUser?.accountStatus),
     [selectedUser],
   );
+
+  const paginatedUsers = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return users.slice(startIndex, endIndex);
+  }, [users, currentPage]);
 
   const reactivateExpiredUsers = useCallback(async (currentUsers: FirebaseUser[]) => {
     const expiredUsers = currentUsers.filter((user) => {
@@ -179,6 +190,12 @@ const User = () => {
 
     return () => clearInterval(timer);
   }, [users, reactivateExpiredUsers]);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const getFullName = (firstName?: string, lastName?: string) => {
     const fullName = `${firstName ?? ""} ${lastName ?? ""}`.trim();
@@ -463,7 +480,7 @@ const User = () => {
             ) : null}
 
             {!isLoading
-              ? users.map((user, index) => (
+              ? paginatedUsers.map((user, index) => (
                   <tr key={user.id} className={index % 2 === 1 ? "bg-[#fafafb]" : ""}>
                     <td className="px-3 py-4 sm:px-5">
                       <div className="flex items-center gap-3">
@@ -525,6 +542,16 @@ const User = () => {
               : null}
           </tbody>
         </table>
+        {!isLoading && users.length > 0 ? (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => {
+              if (page < 1 || page > totalPages) return;
+              setCurrentPage(page);
+            }}
+          />
+        ) : null}
       </div>
     </div>
   );

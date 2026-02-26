@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 
 import Modal from "@/components/common/Modal";
+import Pagination from "@/components/common/Pagination";
 import { db } from "lib/firebase";
 
 type FeedbackItem = {
@@ -38,10 +39,13 @@ const Feedback = () => {
   const [selectedFeedback, setSelectedFeedback] = useState<FeedbackItem | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const [toast, setToast] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const pageSize = 6;
+  const totalPages = Math.max(1, Math.ceil(feedbacks.length / pageSize));
 
   useEffect(() => {
     const feedbackQuery = query(
@@ -126,6 +130,18 @@ const Feedback = () => {
     );
     return total / feedbacks.length;
   }, [feedbacks]);
+
+  const paginatedFeedbacks = useMemo(() => {
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return feedbacks.slice(startIndex, endIndex);
+  }, [feedbacks, currentPage]);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const getDisplayName = (userId?: string) => {
     if (!userId) return "Unknown User";
@@ -259,7 +275,7 @@ const Feedback = () => {
 
         {!isLoading && feedbacks.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 rounded-xl lg:grid-cols-3">
-            {feedbacks.map((item) => (
+            {paginatedFeedbacks.map((item) => (
               <div
                 key={item.id}
                 className="relative w-full overflow-visible rounded-lg bg-[#e5f6ff] p-5 shadow-sm"
@@ -344,6 +360,16 @@ const Feedback = () => {
               </div>
             ))}
           </div>
+        ) : null}
+        {!isLoading && feedbacks.length > 0 ? (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => {
+              if (page < 1 || page > totalPages) return;
+              setCurrentPage(page);
+            }}
+          />
         ) : null}
       </div>
     </div>
