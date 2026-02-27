@@ -1,24 +1,46 @@
 @import "tailwindcss";
 
+/* Class-based dark mode — toggled via .dark on <html> */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f0f6ff;
+  --foreground: #0f172a;
+}
+
+.dark {
+  --background: #020c14;
+  --foreground: #f0f9ff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter); /* ✅ changed to Inter */
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-body {
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+/* Slim futuristic scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.25);
+  border-radius: 99px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(6, 182, 212, 0.2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.45);
 }

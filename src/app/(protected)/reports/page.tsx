@@ -39,10 +39,13 @@ const ReportsPage = () => {
   return (
     <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
       <div className="rounded-2xl bg-linear-to-r from-[#0f172a] via-[#0f3a53] to-[#0b6a6a] p-6 text-white shadow-lg sm:p-8">
-        <p className="text-xs tracking-[0.25em] text-cyan-100 uppercase">Reports Hub</p>
+        <p className="text-xs tracking-[0.25em] text-cyan-100 uppercase">
+          Reports Hub
+        </p>
         <h1 className="mt-2 text-2xl font-bold sm:text-4xl">Admin Reports</h1>
         <p className="mt-2 max-w-2xl text-sm text-cyan-50 sm:text-base">
-          Generate, track, and export operational and security reports in one place.
+          Generate, track, and export operational and security reports in one
+          place.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <button className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100">
@@ -111,8 +114,12 @@ const ReportsPage = () => {
                   <p className="text-xs text-zinc-500">{report.id}</p>
                 </td>
                 <td className="px-5 py-4 text-zinc-700">{report.type}</td>
-                <td className="px-5 py-4 text-zinc-700">{report.generatedBy}</td>
-                <td className="px-5 py-4 text-zinc-700">{report.generatedAt}</td>
+                <td className="px-5 py-4 text-zinc-700">
+                  {report.generatedBy}
+                </td>
+                <td className="px-5 py-4 text-zinc-700">
+                  {report.generatedAt}
+                </td>
                 <td className="px-5 py-4">
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
