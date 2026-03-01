@@ -38,14 +38,15 @@ const reports = [
 const ReportsPage = () => {
   return (
     <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
+
+      {/* Hero banner — gradient stays, it's always dark */}
       <div className="rounded-2xl bg-linear-to-r from-[#0f172a] via-[#0f3a53] to-[#0b6a6a] p-6 text-white shadow-lg sm:p-8">
         <p className="text-xs tracking-[0.25em] text-cyan-100 uppercase">
           Reports Hub
         </p>
         <h1 className="mt-2 text-2xl font-bold sm:text-4xl">Admin Reports</h1>
         <p className="mt-2 max-w-2xl text-sm text-cyan-50 sm:text-base">
-          Generate, track, and export operational and security reports in one
-          place.
+          Generate, track, and export operational and security reports in one place.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <button className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition hover:bg-zinc-100">
@@ -57,36 +58,38 @@ const ReportsPage = () => {
         </div>
       </div>
 
+      {/* Stat cards */}
       <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-zinc-500">Total Reports</p>
-          <p className="mt-2 text-3xl font-bold text-zinc-900">124</p>
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">Total Reports</p>
+          <p className="mt-2 text-3xl font-bold text-zinc-900 dark:text-zinc-100">124</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-zinc-500">Ready to Download</p>
-          <p className="mt-2 text-3xl font-bold text-emerald-700">97</p>
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">Ready to Download</p>
+          <p className="mt-2 text-3xl font-bold text-emerald-700 dark:text-emerald-400">97</p>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-          <p className="text-sm text-zinc-500">Processing</p>
-          <p className="mt-2 text-3xl font-bold text-amber-600">27</p>
+        <div className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">Processing</p>
+          <p className="mt-2 text-3xl font-bold text-amber-600 dark:text-amber-400">27</p>
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm sm:p-5">
+      {/* Filter bar */}
+      <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 sm:p-5">
         <div className="flex flex-wrap items-center gap-3">
           <input
             type="text"
             placeholder="Search report name..."
-            className="min-w-56 flex-1 rounded-lg border border-zinc-300 px-3 py-2 text-sm outline-none focus:border-zinc-500"
+            className="min-w-56 flex-1 rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 outline-none placeholder:text-zinc-400 focus:border-zinc-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-zinc-400"
           />
-          <select className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-zinc-500">
+          <select className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-700 outline-none focus:border-zinc-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:focus:border-zinc-400">
             <option>All Types</option>
             <option>Security</option>
             <option>User Analytics</option>
             <option>Engagement</option>
             <option>Operations</option>
           </select>
-          <select className="rounded-lg border border-zinc-300 px-3 py-2 text-sm text-zinc-700 outline-none focus:border-zinc-500">
+          <select className="rounded-lg border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-700 outline-none focus:border-zinc-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:focus:border-zinc-400">
             <option>Any Status</option>
             <option>Ready</option>
             <option>Processing</option>
@@ -94,9 +97,10 @@ const ReportsPage = () => {
         </div>
       </div>
 
-      <div className="mt-6 overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+      {/* Table card */}
+      <div className="mt-6 overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
         <table className="min-w-full text-left text-sm">
-          <thead className="bg-zinc-50 text-zinc-600">
+          <thead className="bg-zinc-50 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
             <tr>
               <th className="px-5 py-4 font-semibold">Report</th>
               <th className="px-5 py-4 font-semibold">Type</th>
@@ -108,24 +112,31 @@ const ReportsPage = () => {
           </thead>
           <tbody>
             {reports.map((report) => (
-              <tr key={report.id} className="border-t border-zinc-100">
+              <tr
+                key={report.id}
+                className="border-t border-zinc-100 dark:border-zinc-700"
+              >
                 <td className="px-5 py-4">
-                  <p className="font-semibold text-zinc-900">{report.name}</p>
-                  <p className="text-xs text-zinc-500">{report.id}</p>
+                  <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+                    {report.name}
+                  </p>
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">{report.id}</p>
                 </td>
-                <td className="px-5 py-4 text-zinc-700">{report.type}</td>
-                <td className="px-5 py-4 text-zinc-700">
+                <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300">
+                  {report.type}
+                </td>
+                <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300">
                   {report.generatedBy}
                 </td>
-                <td className="px-5 py-4 text-zinc-700">
+                <td className="px-5 py-4 text-zinc-700 dark:text-zinc-300">
                   {report.generatedAt}
                 </td>
                 <td className="px-5 py-4">
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
                       report.status === "Ready"
-                        ? "bg-emerald-100 text-emerald-700"
-                        : "bg-amber-100 text-amber-700"
+                        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+                        : "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
                     }`}
                   >
                     {report.status}
@@ -135,8 +146,8 @@ const ReportsPage = () => {
                   <button
                     className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
                       report.status === "Ready"
-                        ? "bg-zinc-900 text-white hover:bg-zinc-700"
-                        : "cursor-not-allowed bg-zinc-200 text-zinc-500"
+                        ? "bg-zinc-900 text-white hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
+                        : "cursor-not-allowed bg-zinc-200 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-500"
                     }`}
                     disabled={report.status !== "Ready"}
                   >

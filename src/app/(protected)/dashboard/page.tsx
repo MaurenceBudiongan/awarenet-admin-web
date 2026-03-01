@@ -60,7 +60,6 @@ const Dashboard = () => {
     return historyItems.filter((item) => {
       const parsedDate = toDate(item.date);
       if (!parsedDate) return false;
-
       return (
         parsedDate.getDate() === day &&
         parsedDate.getMonth() === month &&
@@ -83,7 +82,6 @@ const Dashboard = () => {
     const yesterdayCount = historyItems.filter((item) => {
       const parsedDate = toDate(item.date);
       if (!parsedDate) return false;
-
       return (
         parsedDate.getDate() === yesterday.getDate() &&
         parsedDate.getMonth() === yesterday.getMonth() &&
@@ -100,6 +98,8 @@ const Dashboard = () => {
 
   return (
     <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
+
+      {/* Hero banner — always dark gradient, white text is correct */}
       <div className="rounded-2xl bg-linear-to-r from-[#0b1f35] via-[#12365d] to-[#1c4f80] p-6 text-white shadow-lg sm:p-8">
         <p className="text-sm tracking-[0.2em] text-cyan-100 uppercase">
           Dashboard
@@ -134,26 +134,33 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Chart cards */}
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <p className="text-lg font-semibold text-zinc-900">Scans Analytic Volume</p>
-          <p className="mt-1 mb-4 text-sm text-zinc-500">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Scans Analytic Volume
+          </p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500 dark:text-zinc-400">
             Daily security scan activity.
           </p>
           <BarChart />
         </div>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <p className="text-lg font-semibold text-zinc-900">Risk Category Breakdown</p>
-          <p className="mt-1 mb-4 text-sm text-zinc-500">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Risk Category Breakdown
+          </p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500 dark:text-zinc-400">
             Distribution of security risk and malicious activities.
           </p>
           <DonutChart />
         </div>
 
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-          <p className="text-lg font-semibold text-zinc-900">User Activity Trends</p>
-          <p className="mt-1 mb-4 text-sm text-zinc-500">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+          <p className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            User Activity Trends
+          </p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500 dark:text-zinc-400">
             Daily active users over the last 7 days.
           </p>
           <LineGraph />

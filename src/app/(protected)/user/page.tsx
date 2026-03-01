@@ -1,13 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  collection,
-  doc,
-  getDocs,
-  query,
-  updateDoc,
-} from "firebase/firestore";
+import { collection, doc, getDocs, query, updateDoc } from "firebase/firestore";
 
 import Modal from "@/components/common/Modal";
 import Pagination from "@/components/common/Pagination";
@@ -41,25 +35,29 @@ const DURATION_OPTIONS: {
     key: "8h",
     label: "8 hrs",
     ms: 8 * 60 * 60 * 1000,
-    className: "border-sky-300 bg-sky-50 text-sky-700",
+    className:
+      "border-sky-300 bg-sky-50 text-sky-700 dark:border-sky-600 dark:bg-sky-900/40 dark:text-sky-300",
   },
   {
     key: "12h",
     label: "12 hrs",
     ms: 12 * 60 * 60 * 1000,
-    className: "border-emerald-300 bg-emerald-50 text-emerald-700",
+    className:
+      "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300",
   },
   {
     key: "1d",
     label: "1 day",
     ms: 24 * 60 * 60 * 1000,
-    className: "border-amber-300 bg-amber-50 text-amber-700",
+    className:
+      "border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-600 dark:bg-amber-900/40 dark:text-amber-300",
   },
   {
     key: "1w",
     label: "1 week",
     ms: 7 * 24 * 60 * 60 * 1000,
-    className: "border-rose-300 bg-rose-50 text-rose-700",
+    className:
+      "border-rose-300 bg-rose-50 text-rose-700 dark:border-rose-600 dark:bg-rose-900/40 dark:text-rose-300",
   },
 ];
 
@@ -105,39 +103,42 @@ const User = () => {
     return users.slice(startIndex, endIndex);
   }, [users, currentPage]);
 
-  const reactivateExpiredUsers = useCallback(async (currentUsers: FirebaseUser[]) => {
-    const expiredUsers = currentUsers.filter((user) => {
-      if (!isDeactivated(user.accountStatus)) return false;
-      const expiresAt = parseDate(user.deactivatedUntil);
-      if (!expiresAt) return false;
-      return expiresAt.getTime() <= Date.now();
-    });
+  const reactivateExpiredUsers = useCallback(
+    async (currentUsers: FirebaseUser[]) => {
+      const expiredUsers = currentUsers.filter((user) => {
+        if (!isDeactivated(user.accountStatus)) return false;
+        const expiresAt = parseDate(user.deactivatedUntil);
+        if (!expiresAt) return false;
+        return expiresAt.getTime() <= Date.now();
+      });
 
-    if (expiredUsers.length === 0) {
-      return currentUsers;
-    }
+      if (expiredUsers.length === 0) {
+        return currentUsers;
+      }
 
-    await Promise.all(
-      expiredUsers.map((user) =>
-        updateDoc(doc(db, "users", user.id), {
-          accountStatus: "active",
-          deactivatedUntil: null,
-          deactivationDuration: null,
-        }),
-      ),
-    );
-
-    return currentUsers.map((user) =>
-      expiredUsers.some((expiredUser) => expiredUser.id === user.id)
-        ? {
-            ...user,
+      await Promise.all(
+        expiredUsers.map((user) =>
+          updateDoc(doc(db, "users", user.id), {
             accountStatus: "active",
             deactivatedUntil: null,
-            deactivationDuration: undefined,
-          }
-        : user,
-    );
-  }, []);
+            deactivationDuration: null,
+          }),
+        ),
+      );
+
+      return currentUsers.map((user) =>
+        expiredUsers.some((expiredUser) => expiredUser.id === user.id)
+          ? {
+              ...user,
+              accountStatus: "active",
+              deactivatedUntil: null,
+              deactivationDuration: undefined,
+            }
+          : user,
+      );
+    },
+    [],
+  );
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -209,8 +210,13 @@ const User = () => {
   };
 
   const getDurationClass = (durationLabel?: string) => {
-    const option = DURATION_OPTIONS.find((item) => item.label === durationLabel);
-    return option?.className ?? "border-zinc-300 bg-zinc-50 text-zinc-700";
+    const option = DURATION_OPTIONS.find(
+      (item) => item.label === durationLabel,
+    );
+    return (
+      option?.className ??
+      "border-zinc-300 bg-zinc-50 text-zinc-700 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+    );
   };
 
   const openStatusModal = (user: FirebaseUser) => {
@@ -315,15 +321,18 @@ const User = () => {
 
     setIsDeleting(true);
     try {
-      const response = await fetch(`/api/users/${encodeURIComponent(selectedUser.id)}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `/api/users/${encodeURIComponent(selectedUser.id)}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: selectedUser.email ?? "",
+          }),
         },
-        body: JSON.stringify({
-          email: selectedUser.email ?? "",
-        }),
-      });
+      );
 
       if (!response.ok) {
         const body = (await response.json().catch(() => null)) as {
@@ -332,7 +341,9 @@ const User = () => {
         throw new Error(body?.error ?? "Failed to delete user.");
       }
 
-      setUsers((current) => current.filter((item) => item.id !== selectedUser.id));
+      setUsers((current) =>
+        current.filter((item) => item.id !== selectedUser.id),
+      );
       setToast({
         type: "success",
         message: "User deleted successfully.",
@@ -352,7 +363,7 @@ const User = () => {
 
   return (
     <div className="w-full">
-      <p className="mt-4 mb-6 ml-10 text-lg font-bold sm:text-4xl">
+      <p className="mt-4 mb-6 ml-10 text-lg font-bold text-gray-900 sm:text-4xl dark:text-gray-100">
         AwareNet User
       </p>
       {toast ? (
@@ -369,14 +380,17 @@ const User = () => {
         </div>
       ) : null}
 
+      {/* Status Modal */}
       <Modal
         isOpen={isStatusModalOpen}
         onClose={closeStatusModal}
         disableOutsideClick={isUpdatingStatus}
       >
         <div className="p-6">
-          <h2 className="text-lg font-semibold text-zinc-900">Update Account Status</h2>
-          <p className="mt-2 text-sm text-zinc-600">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Update Account Status
+          </h2>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
             {isSelectedUserDeactivated
               ? `Activate ${selectedUser ? getFullName(selectedUser.firstName, selectedUser.lastName) : "this user"} now?`
               : `Set deactivation duration for ${selectedUser ? getFullName(selectedUser.firstName, selectedUser.lastName) : "this user"}.`}
@@ -393,8 +407,8 @@ const User = () => {
                     onClick={() => setSelectedDuration(option.key)}
                     className={`rounded-lg border px-3 py-2 text-sm font-medium transition ${
                       isSelected
-                        ? `${option.className} ring-2 ring-zinc-900/15`
-                        : "border-zinc-300 bg-white text-zinc-600 hover:bg-zinc-100"
+                        ? `${option.className} ring-2 ring-zinc-900/15 dark:ring-white/20`
+                        : "border-zinc-300 bg-white text-zinc-600 hover:bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
                     }`}
                   >
                     {option.label}
@@ -409,7 +423,7 @@ const User = () => {
               type="button"
               onClick={closeStatusModal}
               disabled={isUpdatingStatus}
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
             >
               Cancel
             </button>
@@ -417,7 +431,7 @@ const User = () => {
               type="button"
               onClick={() => void onConfirmStatusChange()}
               disabled={isUpdatingStatus}
-              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
             >
               {isUpdatingStatus
                 ? "Saving..."
@@ -429,16 +443,19 @@ const User = () => {
         </div>
       </Modal>
 
+      {/* Delete Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
         disableOutsideClick={isDeleting}
       >
         <div className="p-6">
-          <h2 className="text-lg font-semibold text-zinc-900">Delete User</h2>
-          <p className="mt-2 text-sm text-zinc-600">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Delete User
+          </h2>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
             Are you sure you want to delete{" "}
-            <span className="font-semibold text-zinc-800">
+            <span className="font-semibold text-zinc-800 dark:text-zinc-200">
               {selectedUser
                 ? getFullName(selectedUser.firstName, selectedUser.lastName)
                 : "this user"}
@@ -450,7 +467,7 @@ const User = () => {
               type="button"
               onClick={closeDeleteModal}
               disabled={isDeleting}
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
             >
               Cancel
             </button>
@@ -466,9 +483,9 @@ const User = () => {
         </div>
       </Modal>
 
-      <div className="mt-10 mr-10 mb-7 ml-10 overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
-        <table className="min-w-full text-left text-xs text-gray-500 sm:text-sm">
-          <thead className="bg-[#eafef3] text-gray-700">
+      <div className="mt-10 mr-10 mb-7 ml-10 overflow-x-auto rounded-xl border border-gray-200 shadow-sm dark:border-gray-700">
+        <table className="min-w-full text-left text-xs text-gray-500 sm:text-sm dark:text-gray-400">
+          <thead className="bg-[#eafef3] text-gray-700 dark:bg-emerald-950 dark:text-gray-300">
             <tr>
               <th className="px-3 py-4 sm:px-5">USER</th>
               <th className="px-3 py-4 sm:px-5">EMAIL</th>
@@ -477,7 +494,7 @@ const User = () => {
             </tr>
           </thead>
 
-          <tbody className="text-gray-700">
+          <tbody className="text-gray-700 dark:text-gray-300">
             {isLoading ? (
               <tr>
                 <td className="px-3 py-4 sm:px-5" colSpan={4}>
@@ -496,7 +513,14 @@ const User = () => {
 
             {!isLoading
               ? paginatedUsers.map((user, index) => (
-                  <tr key={user.id} className={index % 2 === 1 ? "bg-[#fafafb]" : ""}>
+                  <tr
+                    key={user.id}
+                    className={
+                      index % 2 === 1
+                        ? "bg-[#fafafb] dark:bg-zinc-800/50"
+                        : "dark:bg-zinc-900"
+                    }
+                  >
                     <td className="px-3 py-4 sm:px-5">
                       <div className="flex items-center gap-3">
                         <img
@@ -504,24 +528,27 @@ const User = () => {
                           alt={getFullName(user.firstName, user.lastName)}
                           className="h-10 w-10 rounded-full object-cover"
                         />
-                        <span className="font-medium text-gray-900">
+                        <span className="font-medium text-gray-900 dark:text-gray-100">
                           {getFullName(user.firstName, user.lastName)}
                         </span>
                       </div>
                     </td>
-                    <td className="px-3 py-4 sm:px-5">{user.email ?? "No email"}</td>
+                    <td className="px-3 py-4 sm:px-5">
+                      {user.email ?? "No email"}
+                    </td>
                     <td className="px-3 py-4 sm:px-5">
                       <div className="flex flex-wrap items-center gap-2">
                         <span
                           className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
                             isDeactivated(user.accountStatus)
-                              ? "bg-red-100 text-red-700"
-                              : "bg-emerald-100 text-emerald-700"
+                              ? "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
+                              : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
                           }`}
                         >
                           {getAccountStatusLabel(user.accountStatus)}
                         </span>
-                        {isDeactivated(user.accountStatus) && user.deactivationDuration ? (
+                        {isDeactivated(user.accountStatus) &&
+                        user.deactivationDuration ? (
                           <span
                             className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${getDurationClass(user.deactivationDuration)}`}
                           >
@@ -537,16 +564,18 @@ const User = () => {
                           onClick={() => openStatusModal(user)}
                           className={`rounded-full border px-3 py-1 text-xs font-medium transition sm:text-sm ${
                             isDeactivated(user.accountStatus)
-                              ? "border-emerald-500 text-emerald-700 hover:bg-emerald-500 hover:text-white"
-                              : "border-orange-400 text-orange-500 hover:bg-orange-400 hover:text-white"
+                              ? "border-emerald-500 text-emerald-700 hover:bg-emerald-500 hover:text-white dark:text-emerald-400 dark:hover:text-white"
+                              : "border-orange-400 text-orange-500 hover:bg-orange-400 hover:text-white dark:text-orange-400 dark:hover:text-white"
                           }`}
                         >
-                          {isDeactivated(user.accountStatus) ? "Activate" : "Deactivate"}
+                          {isDeactivated(user.accountStatus)
+                            ? "Activate"
+                            : "Deactivate"}
                         </button>
                         <button
                           type="button"
                           onClick={() => openDeleteModal(user)}
-                          className="rounded-full border border-red-400 px-3 py-1 text-xs font-medium text-red-500 transition hover:bg-red-500 hover:text-white sm:text-sm"
+                          className="rounded-full border border-red-400 px-3 py-1 text-xs font-medium text-red-500 transition hover:bg-red-500 hover:text-white sm:text-sm dark:text-red-400 dark:hover:text-white"
                         >
                           Delete
                         </button>

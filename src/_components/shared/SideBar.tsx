@@ -112,9 +112,7 @@ export default function SideBar() {
 
         {/* Nav items */}
         <div className="flex flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-4">
-          <p className="mb-3 px-2 font-mono text-[10px] font-semibold tracking-[0.22em] text-slate-400 uppercase dark:text-cyan-600/50">
-            Navigation
-          </p>
+      
 
           {items.map((item) => {
             const isActive = route === item.route;

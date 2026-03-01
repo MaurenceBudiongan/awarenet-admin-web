@@ -197,7 +197,12 @@ const Feedback = () => {
 
   return (
     <div className="w-full">
-      <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">Feedback Overview</p>
+      {/* Page title */}
+      <p className="mt-4 ml-10 text-lg font-bold text-gray-900 dark:text-gray-100 sm:text-4xl">
+        Feedback Overview
+      </p>
+
+      {/* Toast */}
       {toast ? (
         <div className="fixed top-18 right-6 z-50">
           <div
@@ -211,16 +216,20 @@ const Feedback = () => {
           </div>
         </div>
       ) : null}
+
+      {/* Delete Modal */}
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={closeDeleteModal}
         disableOutsideClick={isDeleting}
       >
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-zinc-900">Delete Feedback</h2>
-          <p className="mt-2 text-sm text-zinc-600">
+        <div className="rounded-xl bg-white p-6 dark:bg-zinc-900">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Delete Feedback
+          </h2>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
             Are you sure you want to delete{" "}
-            <span className="font-semibold text-zinc-800">
+            <span className="font-semibold text-zinc-800 dark:text-zinc-200">
               {selectedFeedback?.title || "this feedback"}
             </span>
             ? This action cannot be undone.
@@ -230,7 +239,7 @@ const Feedback = () => {
               type="button"
               onClick={closeDeleteModal}
               disabled={isDeleting}
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
             >
               Cancel
             </button>
@@ -245,41 +254,54 @@ const Feedback = () => {
           </div>
         </div>
       </Modal>
+
       <div className="mt-10 mr-10 ml-10 flex flex-col space-y-5">
+
+        {/* Stat cards */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="flex min-h-44 w-full flex-col justify-center space-y-4 rounded-lg bg-[#eafef3] p-8">
-            <p className="text-xl font-semibold">Total Feedback Entries</p>
-            <p className="text-3xl font-bold text-[#05893E]">{totalFeedbackEntries}</p>
-            <p className="text-md text-gray-500">Across all users</p>
+          <div className="flex min-h-44 w-full flex-col justify-center space-y-4 rounded-lg bg-[#eafef3] p-8 dark:bg-emerald-950">
+            <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              Total Feedback Entries
+            </p>
+            <p className="text-3xl font-bold text-[#05893E] dark:text-emerald-400">
+              {totalFeedbackEntries}
+            </p>
+            <p className="text-md text-gray-500 dark:text-gray-400">Across all users</p>
           </div>
-          <div className="flex min-h-44 w-full flex-col justify-center space-y-4 rounded-lg bg-[#eafef3] p-8">
-            <p className="text-xl font-semibold">Average Rating</p>
-            <p className="text-3xl font-bold text-[#05893E]">
+          <div className="flex min-h-44 w-full flex-col justify-center space-y-4 rounded-lg bg-[#eafef3] p-8 dark:bg-emerald-950">
+            <p className="text-xl font-semibold text-gray-900 dark:text-gray-100">
+              Average Rating
+            </p>
+            <p className="text-3xl font-bold text-[#05893E] dark:text-emerald-400">
               {averageRating.toFixed(1)} / 5
             </p>
-            <p className="text-md text-gray-500">Based on all submissions</p>
+            <p className="text-md text-gray-500 dark:text-gray-400">Based on all submissions</p>
           </div>
         </div>
 
+        {/* Loading state */}
         {isLoading ? (
-          <div className="rounded-lg border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm">
+          <div className="rounded-lg border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
             Loading feedback...
           </div>
         ) : null}
 
+        {/* Empty state */}
         {!isLoading && feedbacks.length === 0 ? (
-          <div className="rounded-lg border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm">
+          <div className="rounded-lg border border-zinc-200 bg-white p-6 text-sm text-zinc-600 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
             No feedback entries found.
           </div>
         ) : null}
 
+        {/* Feedback cards */}
         {!isLoading && feedbacks.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 rounded-xl lg:grid-cols-3">
             {paginatedFeedbacks.map((item) => (
               <div
                 key={item.id}
-                className="relative w-full overflow-visible rounded-lg bg-[#e5f6ff] p-5 shadow-sm"
+                className="relative w-full overflow-visible rounded-lg bg-[#e5f6ff] p-5 shadow-sm dark:bg-zinc-800"
               >
+                {/* Card header */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex items-center gap-4">
                     <img
@@ -288,17 +310,25 @@ const Feedback = () => {
                       className="h-12 w-12 rounded-full object-cover"
                     />
                     <div>
-                      <p className="text-lg">{getDisplayName(item.userId)}</p>
-                      <p className="text-sm text-[#565d6d]">{formatDate(item.createdAt)}</p>
+                      <p className="text-lg text-gray-900 dark:text-gray-100">
+                        {getDisplayName(item.userId)}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {formatDate(item.createdAt)}
+                      </p>
                     </div>
                   </div>
+
+                  {/* Kebab menu */}
                   <div className="relative z-30">
                     <button
                       type="button"
                       onClick={() =>
-                        setMenuOpenId((current) => (current === item.id ? null : item.id))
+                        setMenuOpenId((current) =>
+                          current === item.id ? null : item.id,
+                        )
                       }
-                      className="rounded-full p-1.5 text-zinc-500 transition hover:bg-zinc-200 hover:text-zinc-800"
+                      className="rounded-full p-1.5 text-zinc-500 transition hover:bg-zinc-200 hover:text-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700 dark:hover:text-zinc-100"
                       aria-label="Open feedback actions"
                     >
                       <svg
@@ -313,11 +343,11 @@ const Feedback = () => {
                       </svg>
                     </button>
                     {menuOpenId === item.id && !isDeleteModalOpen ? (
-                      <div className="absolute top-9 right-0 min-w-28 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg">
+                      <div className="absolute top-9 right-0 min-w-28 rounded-lg border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
                         <button
                           type="button"
                           onClick={() => openDeleteModal(item)}
-                          className="block w-full px-3 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+                          className="block w-full px-3 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/30"
                         >
                           Delete
                         </button>
@@ -326,6 +356,7 @@ const Feedback = () => {
                   </div>
                 </div>
 
+                {/* Stars */}
                 <div className="mt-3 flex">
                   {Array.from({ length: 5 }).map((_, index) => {
                     const isFilled = index < Math.round(item.rating ?? 0);
@@ -349,11 +380,12 @@ const Feedback = () => {
                   })}
                 </div>
 
+                {/* Content */}
                 <div className="mt-3">
-                  <p className="text-base font-semibold text-zinc-900">
+                  <p className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
                     {item.title || "Untitled Feedback"}
                   </p>
-                  <p className="mt-2 text-sm text-zinc-700">
+                  <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-300">
                     {item.description || "No description provided."}
                   </p>
                 </div>
@@ -361,6 +393,7 @@ const Feedback = () => {
             ))}
           </div>
         ) : null}
+
         {!isLoading && feedbacks.length > 0 ? (
           <Pagination
             currentPage={currentPage}
