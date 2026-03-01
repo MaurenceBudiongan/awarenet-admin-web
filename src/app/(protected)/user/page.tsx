@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   collection,
-  deleteDoc,
   doc,
   getDocs,
   query,
@@ -316,7 +315,23 @@ const User = () => {
 
     setIsDeleting(true);
     try {
-      await deleteDoc(doc(db, "users", selectedUser.id));
+      const response = await fetch(`/api/users/${encodeURIComponent(selectedUser.id)}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: selectedUser.email ?? "",
+        }),
+      });
+
+      if (!response.ok) {
+        const body = (await response.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        throw new Error(body?.error ?? "Failed to delete user.");
+      }
+
       setUsers((current) => current.filter((item) => item.id !== selectedUser.id));
       setToast({
         type: "success",
