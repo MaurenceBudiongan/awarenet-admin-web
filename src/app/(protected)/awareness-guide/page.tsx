@@ -83,7 +83,6 @@ const Manage_Awareness_Guide = () => {
 
   useEffect(() => {
     if (!toast) return;
-
     const timer = setTimeout(() => setToast(null), 3000);
     return () => clearTimeout(timer);
   }, [toast]);
@@ -95,10 +94,7 @@ const Manage_Awareness_Guide = () => {
     try {
       await deleteDoc(doc(db, "awarenessGuide", id));
       setGuides((current) => current.filter((guide) => guide.id !== id));
-      setToast({
-        type: "success",
-        message: "Tip deleted successfully.",
-      });
+      setToast({ type: "success", message: "Tip deleted successfully." });
     } catch (error) {
       setToast({
         type: "error",
@@ -128,16 +124,20 @@ const Manage_Awareness_Guide = () => {
 
   return (
     <div className="w-full">
+      {/* Header */}
       <div className="mt-4 mr-10 ml-10 flex items-center justify-between gap-4">
-        <p className="text-lg font-bold sm:text-4xl">Manage Awareness Guide</p>
+        <p className="text-lg font-bold text-gray-900 dark:text-gray-100 sm:text-4xl">
+          Manage Awareness Guide
+        </p>
         <Link
           href="/awareness-guide/create-guide"
-          className="inline-flex items-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-zinc-700"
+          className="inline-flex items-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-300"
         >
           New Tip of the Day
         </Link>
       </div>
 
+      {/* Toast */}
       {toast ? (
         <div className="fixed top-18 right-6 z-50">
           <div
@@ -151,16 +151,20 @@ const Manage_Awareness_Guide = () => {
           </div>
         </div>
       ) : null}
+
+      {/* Delete Modal */}
       <Modal
         isOpen={Boolean(guideToDelete)}
         onClose={closeDeleteModal}
         disableOutsideClick={Boolean(deletingId)}
       >
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-zinc-900">Delete Tip</h2>
-          <p className="mt-2 text-sm text-zinc-600">
+        <div className="rounded-xl bg-white p-6 dark:bg-zinc-900">
+          <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+            Delete Tip
+          </h2>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
             Are you sure you want to delete{" "}
-            <span className="font-semibold text-zinc-800">
+            <span className="font-semibold text-zinc-800 dark:text-zinc-200">
               {guideToDelete?.articleTitle ?? "this tip"}
             </span>
             ? This action cannot be undone.
@@ -170,7 +174,7 @@ const Manage_Awareness_Guide = () => {
               type="button"
               onClick={closeDeleteModal}
               disabled={Boolean(deletingId)}
-              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
             >
               Cancel
             </button>
@@ -189,50 +193,63 @@ const Manage_Awareness_Guide = () => {
       </Modal>
 
       <div className="mt-8 mr-10 mb-7 ml-10">
-        <div className="text-sm text-[#565d6d]">
+        {/* Subtitle */}
+        <div className="text-sm text-gray-500 dark:text-gray-400">
           Manage posted awareness tips and keep content up to date.
         </div>
 
+        {/* Loading state */}
         {isLoading ? (
-          <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 text-zinc-500 shadow-sm">
+          <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 text-zinc-500 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
             Loading awareness guides...
           </div>
         ) : null}
 
+        {/* Empty state */}
         {!isLoading && guides.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-zinc-300 bg-white p-8 text-center shadow-sm">
-            <p className="font-semibold text-zinc-700">No tips published yet</p>
-            <p className="mt-2 text-sm text-zinc-500">
+          <div className="mt-6 rounded-2xl border border-dashed border-zinc-300 bg-white p-8 text-center shadow-sm dark:border-zinc-600 dark:bg-zinc-900">
+            <p className="font-semibold text-zinc-700 dark:text-zinc-200">
+              No tips published yet
+            </p>
+            <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
               Click New Tip of the Day to add your first awareness guide.
             </p>
           </div>
         ) : null}
 
+        {/* Guide cards */}
         {!isLoading && guides.length > 0 ? (
           <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
             {paginatedGuides.map((guide) => (
               <article
                 key={guide.id}
-                className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-900"
               >
+                {/* Card header */}
                 <div className="mb-3 flex items-start justify-between gap-3">
-                  <h2 className="line-clamp-2 text-lg font-semibold text-zinc-900">
+                  <h2 className="line-clamp-2 text-lg font-semibold text-zinc-900 dark:text-zinc-100">
                     {guide.articleTitle}
                   </h2>
-                  <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
+                  <span className="shrink-0 rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                     {formatDate(guide.createdAt)}
                   </span>
                 </div>
-                <p className="line-clamp-4 text-sm leading-6 text-zinc-600">
+
+                {/* Content */}
+                <p className="line-clamp-4 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
                   {guide.content}
                 </p>
-                <p className="mt-4 text-xs font-medium tracking-wide text-zinc-500 uppercase">
+
+                {/* Author */}
+                <p className="mt-4 text-xs font-medium tracking-wide text-zinc-500 uppercase dark:text-zinc-400">
                   Author: {guide.author}
                 </p>
+
+                {/* Actions */}
                 <div className="mt-5 flex items-center justify-end gap-2">
                   <Link
                     href={`/awareness-guide/create-guide?id=${guide.id}`}
-                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
                   >
                     Update
                   </Link>
@@ -249,6 +266,7 @@ const Manage_Awareness_Guide = () => {
             ))}
           </div>
         ) : null}
+
         {!isLoading && guides.length > 0 ? (
           <Pagination
             currentPage={safeCurrentPage}

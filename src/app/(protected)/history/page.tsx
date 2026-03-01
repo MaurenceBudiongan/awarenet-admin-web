@@ -166,6 +166,7 @@ const History = () => {
   }, []);
 
   const totalActivities = historyItems.length;
+
   const uniquePosters = useMemo(() => {
     const posters = new Set(
       historyItems
@@ -188,6 +189,7 @@ const History = () => {
   }, [historyItems]);
 
   const latestActivity = historyItems[0]?.date;
+
   const paginatedHistoryItems = useMemo(() => {
     const startIndex = (safeCurrentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
@@ -196,29 +198,43 @@ const History = () => {
 
   return (
     <div className="w-full">
-      <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">History</p>
+      {/* Page title */}
+      <p className="mt-4 ml-10 text-lg font-bold text-gray-900 dark:text-gray-100 sm:text-4xl">
+        History
+      </p>
 
+      {/* Stat cards */}
       <div className="mt-10 mr-10 mb-7 ml-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+
+        {/* Total Activities */}
+        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
           <div>
-            <p className="text-sm text-[#565d6d]">Total Activities</p>
-            <p className="mt-2 text-2xl font-bold">{totalActivities}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Total Activities</p>
+            <p className="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
+              {totalActivities}
+            </p>
           </div>
           {getActivityIcon("history")}
         </div>
 
-        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+        {/* Top Activity */}
+        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
           <div>
-            <p className="text-sm text-[#565d6d]">Top Activity</p>
-            <p className="mt-2 text-sm font-semibold">{topActivityType}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Top Activity</p>
+            <p className="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
+              {topActivityType}
+            </p>
           </div>
           {getActivityIcon(topActivityType)}
         </div>
 
-        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+        {/* Unique Posters */}
+        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
           <div>
-            <p className="text-sm text-[#565d6d]">Unique Posters</p>
-            <p className="mt-2 text-2xl font-bold">{uniquePosters}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Unique Posters</p>
+            <p className="mt-2 text-2xl font-bold text-gray-900 dark:text-gray-100">
+              {uniquePosters}
+            </p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -238,10 +254,11 @@ const History = () => {
           </svg>
         </div>
 
-        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+        {/* Latest Activity */}
+        <div className="flex items-center justify-between rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
           <div>
-            <p className="text-sm text-[#565d6d]">Latest Activity</p>
-            <p className="mt-2 text-sm font-semibold">
+            <p className="text-sm text-gray-500 dark:text-gray-400">Latest Activity</p>
+            <p className="mt-2 text-sm font-semibold text-gray-900 dark:text-gray-100">
               {latestActivity ? formatHistoryDate(latestActivity) : "No date"}
             </p>
           </div>
@@ -249,29 +266,30 @@ const History = () => {
         </div>
       </div>
 
-      <div className="mt-10 mr-10 mb-7 ml-10 overflow-x-auto rounded-xl border border-[#dee1e6] p-2 shadow-xs">
+      {/* Table card */}
+      <div className="mt-10 mr-10 mb-7 ml-10 overflow-x-auto rounded-xl border border-zinc-200 bg-white p-2 shadow-xs dark:border-zinc-700 dark:bg-zinc-900">
         <table className="min-w-full border-collapse">
           <thead>
             <tr>
-              <th className="p-4 text-left text-[#565d6d]"></th>
-              <th className="p-4 text-left text-[#565d6d]">Activity Type</th>
-              <th className="p-4 text-left text-[#565d6d]">Description</th>
-              <th className="p-4 text-left text-[#565d6d]">User</th>
-              <th className="p-4 text-left text-[#565d6d]">Timestamp</th>
+              <th className="p-4 text-left text-gray-500 dark:text-gray-400"></th>
+              <th className="p-4 text-left text-gray-500 dark:text-gray-400">Activity Type</th>
+              <th className="p-4 text-left text-gray-500 dark:text-gray-400">Description</th>
+              <th className="p-4 text-left text-gray-500 dark:text-gray-400">User</th>
+              <th className="p-4 text-left text-gray-500 dark:text-gray-400">Timestamp</th>
             </tr>
           </thead>
           <tbody>
             {isLoading ? (
-              <tr className="border-t border-t-[#dee1e6]">
-                <td className="p-4 text-[#565d6d]" colSpan={5}>
+              <tr className="border-t border-zinc-200 dark:border-zinc-700">
+                <td className="p-4 text-gray-500 dark:text-gray-400" colSpan={5}>
                   Loading history...
                 </td>
               </tr>
             ) : null}
 
             {!isLoading && historyItems.length === 0 ? (
-              <tr className="border-t border-t-[#dee1e6]">
-                <td className="p-4 text-[#565d6d]" colSpan={5}>
+              <tr className="border-t border-zinc-200 dark:border-zinc-700">
+                <td className="p-4 text-gray-500 dark:text-gray-400" colSpan={5}>
                   No history records found.
                 </td>
               </tr>
@@ -279,12 +297,21 @@ const History = () => {
 
             {!isLoading
               ? paginatedHistoryItems.map((item) => (
-                  <tr key={item.id} className="border-t border-t-[#dee1e6]">
+                  <tr
+                    key={item.id}
+                    className="border-t border-zinc-200 dark:border-zinc-700"
+                  >
                     <td className="p-4">{getActivityIcon(item.activityType)}</td>
-                    <td className="p-4">{item.activityType ?? "Unknown"}</td>
-                    <td className="p-4 text-[#565d6d]">{item.description ?? "-"}</td>
-                    <td className="p-4 text-[#565d6d]">{item.posterName ?? "Unknown"}</td>
-                    <td className="p-4 text-[#565d6d]">
+                    <td className="p-4 font-medium text-gray-900 dark:text-gray-100">
+                      {item.activityType ?? "Unknown"}
+                    </td>
+                    <td className="p-4 text-gray-500 dark:text-gray-400">
+                      {item.description ?? "-"}
+                    </td>
+                    <td className="p-4 text-gray-500 dark:text-gray-400">
+                      {item.posterName ?? "Unknown"}
+                    </td>
+                    <td className="p-4 text-gray-500 dark:text-gray-400">
                       {formatHistoryDate(item.date)}
                     </td>
                   </tr>
