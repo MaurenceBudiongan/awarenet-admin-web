@@ -5,9 +5,14 @@ import Main from "@/components/shared/Main";
 
 export default function Content({ children }: PropsWithChildren) {
   return (
-    <div className="fixed left-0 flex h-screen w-full pt-16">
-      <SideBar />
-      <Main>{children}</Main>
+    <div className="relative">
+      <div className="flex w-full pt-14">
+        <div className="">
+          <SideBar />
+        </div>
+
+        <Main>{children}</Main>
+      </div>
     </div>
   );
 }

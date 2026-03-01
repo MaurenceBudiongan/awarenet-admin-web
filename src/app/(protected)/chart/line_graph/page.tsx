@@ -48,15 +48,9 @@ const LineGraph = () => {
     <div
       style={{
         display: "flex",
-
-        backgroundColor: "red",
       }}
     >
-      <svg
-        width={chartWidth}
-        height={chartHeight}
-        style={{ background: "#fff" }}
-      >
+      <svg width={chartWidth} height={chartHeight}>
         {/* Horizontal grid lines with labels */}
         {[0, 50, 100, 150, 200].map((yValue) => {
           const yPos =

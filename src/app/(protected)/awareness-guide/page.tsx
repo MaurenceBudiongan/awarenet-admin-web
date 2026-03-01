@@ -1,45 +1,264 @@
 "use client";
 
+import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Timestamp,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
+
+import Modal from "@/components/common/Modal";
+import Pagination from "@/components/common/Pagination";
+import { db } from "lib/firebase";
+
+type ToastState = {
+  type: "success" | "error";
+  message: string;
+} | null;
+
+type AwarenessGuide = {
+  id: string;
+  articleTitle: string;
+  content: string;
+  author: string;
+  createdAt?: Timestamp;
+};
+
 const Manage_Awareness_Guide = () => {
+  const [guides, setGuides] = useState<AwarenessGuide[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [guideToDelete, setGuideToDelete] = useState<AwarenessGuide | null>(null);
+  const [toast, setToast] = useState<ToastState>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageSize = 4;
+  const totalPages = Math.max(1, Math.ceil(guides.length / pageSize));
+  const safeCurrentPage = Math.min(currentPage, totalPages);
+  const paginatedGuides = useMemo(() => {
+    const startIndex = (safeCurrentPage - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    return guides.slice(startIndex, endIndex);
+  }, [guides, safeCurrentPage]);
+
+  useEffect(() => {
+    const fetchGuides = async () => {
+      try {
+        const guidesQuery = query(
+          collection(db, "awarenessGuide"),
+          orderBy("createdAt", "desc"),
+        );
+        const snapshot = await getDocs(guidesQuery);
+
+        const list: AwarenessGuide[] = snapshot.docs.map((guide) => {
+          const data = guide.data();
+          return {
+            id: guide.id,
+            articleTitle: data.articleTitle ?? "Untitled",
+            content: data.content ?? "",
+            author: data.author ?? "Unknown",
+            createdAt: data.createdAt,
+          };
+        });
+
+        setGuides(list);
+      } catch (error) {
+        setToast({
+          type: "error",
+          message: "Failed to load guides. Please refresh the page.",
+        });
+        console.error("Failed to fetch awareness guides:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    void fetchGuides();
+  }, []);
+
+  useEffect(() => {
+    if (!toast) return;
+
+    const timer = setTimeout(() => setToast(null), 3000);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const onDelete = async (id: string) => {
+    if (deletingId) return;
+
+    setDeletingId(id);
+    try {
+      await deleteDoc(doc(db, "awarenessGuide", id));
+      setGuides((current) => current.filter((guide) => guide.id !== id));
+      setToast({
+        type: "success",
+        message: "Tip deleted successfully.",
+      });
+    } catch (error) {
+      setToast({
+        type: "error",
+        message: "Failed to delete tip. Please try again.",
+      });
+      console.error("Failed to delete awareness guide:", error);
+    } finally {
+      setDeletingId(null);
+      setGuideToDelete(null);
+    }
+  };
+
+  const openDeleteModal = (guide: AwarenessGuide) => {
+    if (deletingId) return;
+    setGuideToDelete(guide);
+  };
+
+  const closeDeleteModal = () => {
+    if (deletingId) return;
+    setGuideToDelete(null);
+  };
+
+  const formatDate = (createdAt?: Timestamp) => {
+    if (!createdAt) return "No date";
+    return createdAt.toDate().toLocaleDateString();
+  };
+
   return (
-    <div className="">
-      <p className="ml-10 mt-4 text-lg sm:text-4xl font-bold">
-        Manage Awareness Guide
-      </p>
-      <div className="ml-10 mr-10 mt-10 mb-7 p-6 rounded-xl flex flex-col justify-around gap-y-6">
-        <div className="text-[#565d6d] text-sm">
-          Fill in the information to create a new Guide, Tips & Tools.
+    <div className="w-full">
+      <div className="mt-4 mr-10 ml-10 flex items-center justify-between gap-4">
+        <p className="text-lg font-bold sm:text-4xl">Manage Awareness Guide</p>
+        <Link
+          href="/awareness-guide/create-guide"
+          className="inline-flex items-center rounded-full bg-zinc-900 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-zinc-700"
+        >
+          New Tip of the Day
+        </Link>
+      </div>
+
+      {toast ? (
+        <div className="fixed top-18 right-6 z-50">
+          <div
+            className={`rounded-md px-4 py-3 text-sm font-medium text-white shadow-lg ${
+              toast.type === "success" ? "bg-emerald-600" : "bg-red-600"
+            }`}
+            role="status"
+            aria-live="polite"
+          >
+            {toast.message}
+          </div>
         </div>
-        <div className="space-y-3">
-          <p className="font-semibold">Article Title</p>
-          <input
-            type="text"
-            placeholder="AwareNet: CyberSecurity Awareness"
-            className="w-full rounded-sm border border-gray-300 outline-0 indent-3 p-2"
+      ) : null}
+      <Modal
+        isOpen={Boolean(guideToDelete)}
+        onClose={closeDeleteModal}
+        disableOutsideClick={Boolean(deletingId)}
+      >
+        <div className="p-6">
+          <h2 className="text-lg font-semibold text-zinc-900">Delete Tip</h2>
+          <p className="mt-2 text-sm text-zinc-600">
+            Are you sure you want to delete{" "}
+            <span className="font-semibold text-zinc-800">
+              {guideToDelete?.articleTitle ?? "this tip"}
+            </span>
+            ? This action cannot be undone.
+          </p>
+          <div className="mt-6 flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={closeDeleteModal}
+              disabled={Boolean(deletingId)}
+              className="rounded-lg border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                guideToDelete ? void onDelete(guideToDelete.id) : undefined
+              }
+              disabled={Boolean(deletingId)}
+              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {deletingId ? "Deleting..." : "Delete"}
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      <div className="mt-8 mr-10 mb-7 ml-10">
+        <div className="text-sm text-[#565d6d]">
+          Manage posted awareness tips and keep content up to date.
+        </div>
+
+        {isLoading ? (
+          <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 text-zinc-500 shadow-sm">
+            Loading awareness guides...
+          </div>
+        ) : null}
+
+        {!isLoading && guides.length === 0 ? (
+          <div className="mt-6 rounded-2xl border border-dashed border-zinc-300 bg-white p-8 text-center shadow-sm">
+            <p className="font-semibold text-zinc-700">No tips published yet</p>
+            <p className="mt-2 text-sm text-zinc-500">
+              Click New Tip of the Day to add your first awareness guide.
+            </p>
+          </div>
+        ) : null}
+
+        {!isLoading && guides.length > 0 ? (
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {paginatedGuides.map((guide) => (
+              <article
+                key={guide.id}
+                className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <div className="mb-3 flex items-start justify-between gap-3">
+                  <h2 className="line-clamp-2 text-lg font-semibold text-zinc-900">
+                    {guide.articleTitle}
+                  </h2>
+                  <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs text-zinc-600">
+                    {formatDate(guide.createdAt)}
+                  </span>
+                </div>
+                <p className="line-clamp-4 text-sm leading-6 text-zinc-600">
+                  {guide.content}
+                </p>
+                <p className="mt-4 text-xs font-medium tracking-wide text-zinc-500 uppercase">
+                  Author: {guide.author}
+                </p>
+                <div className="mt-5 flex items-center justify-end gap-2">
+                  <Link
+                    href={`/awareness-guide/create-guide?id=${guide.id}`}
+                    className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100"
+                  >
+                    Update
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => openDeleteModal(guide)}
+                    disabled={deletingId === guide.id}
+                    className="rounded-lg bg-red-600 px-3 py-1.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {deletingId === guide.id ? "Deleting..." : "Delete"}
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : null}
+        {!isLoading && guides.length > 0 ? (
+          <Pagination
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            onPageChange={(page) => {
+              if (page < 1 || page > totalPages) return;
+              setCurrentPage(page);
+            }}
           />
-        </div>
-        <div className="space-y-3">
-          <p className="font-semibold">Content</p>
-          <textarea
-            name=""
-            id=""
-            placeholder="Artificial intelligence is rapidly transforming urban planning and management. This article explores how AI technologies, from predictive analytics to smart sensors, can be harnessed to create more sustainable, efficient, and livable cities. We delve into case studies demonstrating successful implementations in areas such as traffic management, waste optimization, energy consumption, and public safety. The integration of AI promises not only operational efficiencies but also a greener, more resilient urban future. Key challenges include data privacy, ethical considerations, and ensuring equitable access to technology, all of which must be addressed for successful adoption."
-            className="w-full rounded-sm border border-gray-300 outline-0 indent-3 p-2  placeholder:text-justify h-50"
-          />
-        </div>
-        <div className="space-y-3">
-          <p className="font-semibold">Author</p>
-          <input
-            type="text"
-            placeholder="Maurence Budiongan"
-            className="w-full rounded-sm border border-gray-300 outline-0 p-2"
-          />
-        </div>
-        <div>
-          <button className="mt-4 bg-[#7CAD71] rounded-sm  p-2 float-right text-white">
-            Publish Article
-          </button>
-        </div>
+        ) : null}
       </div>
     </div>
   );

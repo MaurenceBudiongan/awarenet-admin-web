@@ -40,13 +40,13 @@ export default function Login() {
 
   return (
     <>
-      {!showLoginForm && <Loading />}
       <div
         className={cn(
           !showLoginForm && "hidden",
-          "xs:min-w-auto rounded-xl border border-zinc-300 bg-white p-8 shadow-lg md:min-w-lg",
+          "xs:min-w-auto flex h-96 items-center justify-center rounded-xl border border-zinc-300 bg-white p-8 shadow-lg md:min-w-lg",
         )}
       >
+        {!showLoginForm && <Loading />}
         <Descope
           flowId="sign-in"
           onSuccess={handleLoginSuccess}

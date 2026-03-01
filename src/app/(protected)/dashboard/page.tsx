@@ -1,82 +1,162 @@
-import type { Metadata } from "next";
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
 
 import DonutChart from "../chart/donut_chart/page";
 import BarChart from "../chart/bar_graph/page";
 import LineGraph from "../chart/line_graph/page";
+import { db } from "lib/firebase";
 
-export const metadata: Metadata = {
-  title: "AwareNet - Dashboard",
+type HistoryItem = {
+  activityType?: string;
+  date?: unknown;
 };
 
 const Dashboard = () => {
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
+
+  useEffect(() => {
+    const unsubscribeUsers = onSnapshot(
+      collection(db, "users"),
+      (snapshot) => {
+        setTotalUsers(snapshot.size);
+      },
+      (error) => {
+        console.error("Failed to subscribe users collection:", error);
+      },
+    );
+
+    const unsubscribeHistory = onSnapshot(
+      collection(db, "history"),
+      (snapshot) => {
+        const list: HistoryItem[] = snapshot.docs.map((itemDoc) => {
+          const data = itemDoc.data();
+          return {
+            activityType: data.activityType,
+            date: data.date,
+          };
+        });
+        setHistoryItems(list);
+      },
+      (error) => {
+        console.error("Failed to subscribe history collection:", error);
+      },
+    );
+
+    return () => {
+      unsubscribeUsers();
+      unsubscribeHistory();
+    };
+  }, []);
+
+  const todaysScans = useMemo(() => {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+
+    return historyItems.filter((item) => {
+      const parsedDate = toDate(item.date);
+      if (!parsedDate) return false;
+
+      return (
+        parsedDate.getDate() === day &&
+        parsedDate.getMonth() === month &&
+        parsedDate.getFullYear() === year
+      );
+    }).length;
+  }, [historyItems]);
+
+  const highRiskAlerts = useMemo(() => {
+    return historyItems.filter((item) => {
+      const type = (item.activityType ?? "").toLowerCase();
+      return type.includes("risk") || type.includes("alert");
+    }).length;
+  }, [historyItems]);
+
+  const todayScansTrend = useMemo(() => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const yesterdayCount = historyItems.filter((item) => {
+      const parsedDate = toDate(item.date);
+      if (!parsedDate) return false;
+
+      return (
+        parsedDate.getDate() === yesterday.getDate() &&
+        parsedDate.getMonth() === yesterday.getMonth() &&
+        parsedDate.getFullYear() === yesterday.getFullYear()
+      );
+    }).length;
+
+    if (yesterdayCount === 0) return "+0.0% vs yesterday";
+
+    const change = ((todaysScans - yesterdayCount) / yesterdayCount) * 100;
+    const sign = change >= 0 ? "+" : "";
+    return `${sign}${change.toFixed(1)}% vs yesterday`;
+  }, [historyItems, todaysScans]);
+
   return (
-    <div>
-      <p className="mt-4 ml-10 text-lg font-bold sm:text-4xl">
-        Dashboard Overview
-      </p>
-      <div className="flex w-full flex-col">
-        <div className="mt-10 mr-10 mb-7 ml-10 flex flex-col justify-around gap-y-2 rounded-xl bg-[#F3F7FC] p-6">
-          <div className="flex flex-col items-start sm:items-center">
-            <div className="ml-5 rounded-full bg-black p-2 sm:ml-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="30"
-                height="30"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-shield-check-icon lucide-shield-check text-white"
-              >
-                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-                <path d="m9 12 2 2 4-4" />
-              </svg>
-            </div>
-            <p className="text-md mt-5 ml-5 font-bold text-gray-500">
-              Total Active Users
+    <div className="w-full px-4 py-6 sm:px-8 lg:px-12">
+      <div className="rounded-2xl bg-linear-to-r from-[#0b1f35] via-[#12365d] to-[#1c4f80] p-6 text-white shadow-lg sm:p-8">
+        <p className="text-sm tracking-[0.2em] text-cyan-100 uppercase">
+          Dashboard
+        </p>
+        <p className="mt-2 text-2xl font-bold sm:text-4xl">AwareNet Statistics</p>
+        <p className="mt-2 text-sm text-cyan-50 sm:text-base">
+          Real-time security visibility across users, risks, and scanning activity.
+        </p>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+            <p className="text-xs font-semibold tracking-wider text-cyan-100 uppercase">
+              Total Users
             </p>
+            <p className="mt-2 text-3xl font-bold">{totalUsers.toLocaleString()}</p>
+            <p className="mt-1 text-xs text-cyan-100">From users collection</p>
           </div>
-          <div className="flex flex-col">
-            <p className="ml-5 text-5xl font-bold">2,450</p>
-            <p className="text-md mt-3 ml-5 font-semibold text-gray-500">
-              Currently online and active
+          <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+            <p className="text-xs font-semibold tracking-wider text-cyan-100 uppercase">
+              Today Scans
             </p>
+            <p className="mt-2 text-3xl font-bold">{todaysScans.toLocaleString()}</p>
+            <p className="mt-1 text-xs text-cyan-100">{todayScansTrend}</p>
+          </div>
+          <div className="rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+            <p className="text-xs font-semibold tracking-wider text-cyan-100 uppercase">
+              High Risk Alerts
+            </p>
+            <p className="mt-2 text-3xl font-bold">{highRiskAlerts.toLocaleString()}</p>
+            <p className="mt-1 text-xs text-cyan-100">Based on history activityType</p>
           </div>
         </div>
-        <div className="mr-10 ml-10 flex-row justify-between space-y-5 gap-x-15 rounded-lg sm:space-y-0 md:flex md:space-y-0">
-          <div className="w-full rounded-xl p-8 shadow-sm">
-            <p className="text-md mb-3 font-semibold sm:text-xl">
-              Scans Analytic volume
-            </p>
-            <p className="text-md font-semibold text-gray-500">
-              Daily security scan activity.
-            </p>
-            <div>
-              <BarChart />
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-8 shadow-sm">
-            <p className="mb-3 text-xl font-semibold">
-              Risk Category Breakdown
-            </p>
-            <p className="text-md font-semibold text-gray-500">
-              Distribution of security risk and malicious activities{" "}
-            </p>
-            <div>
-              <DonutChart />
-            </div>
-          </div>
-          <div className="w-full rounded-xl p-8 shadow-sm">
-            <p className="mb-3 text-xl font-semibold">User Activity Trends</p>
-            <p className="text-md font-semibold text-gray-500">
-              Daily active user over the last 7 days.
-            </p>
-            <div>
-              <LineGraph />
-            </div>
-          </div>
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <p className="text-lg font-semibold text-zinc-900">Scans Analytic Volume</p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500">
+            Daily security scan activity.
+          </p>
+          <BarChart />
+        </div>
+
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <p className="text-lg font-semibold text-zinc-900">Risk Category Breakdown</p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500">
+            Distribution of security risk and malicious activities.
+          </p>
+          <DonutChart />
+        </div>
+
+        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+          <p className="text-lg font-semibold text-zinc-900">User Activity Trends</p>
+          <p className="mt-1 mb-4 text-sm text-zinc-500">
+            Daily active users over the last 7 days.
+          </p>
+          <LineGraph />
         </div>
       </div>
     </div>
@@ -84,3 +164,15 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+function toDate(value: unknown): Date | null {
+  if (!value) return null;
+  if (value instanceof Date) return value;
+  if (typeof value === "object" && value !== null && "toDate" in value) {
+    const valueWithToDate = value as { toDate: () => Date };
+    return valueWithToDate.toDate();
+  }
+
+  const parsed = new Date(value as string | number);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
