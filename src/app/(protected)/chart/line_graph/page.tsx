@@ -66,7 +66,7 @@ function Chart({
               strokeWidth="1"
             />
             <text
-              x={padding - 40}
+              x={padding - 30}
               y={yPos + 5}
               fontSize="12"
               fill={axisColor}

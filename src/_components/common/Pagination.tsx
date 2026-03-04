@@ -33,21 +33,27 @@ const Pagination = ({
 
   return (
     <div className="mt-4 flex items-center justify-between gap-2 px-2 pb-4">
-      <p className="text-sm text-zinc-500">
+
+      <p className="text-sm text-zinc-600 dark:text-zinc-400">
         Page {currentPage} of {totalPages}
       </p>
+
+      {/* Prev Button */}
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg border px-3 py-1.5 text-sm font-medium transition
+        border-zinc-300 text-zinc-800 hover:bg-zinc-100
+        dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800
+        disabled:cursor-not-allowed disabled:opacity-50"
       >
         Prev
       </button>
 
       {pages.map((page, index) =>
         page === -1 ? (
-          <span key={`ellipsis-${index}`} className="px-1 text-zinc-400">
+          <span key={`ellipsis-${index}`} className="px-1 text-zinc-400 dark:text-zinc-500">
             ...
           </span>
         ) : (
@@ -57,8 +63,14 @@ const Pagination = ({
             onClick={() => onPageChange(page)}
             className={`rounded-lg px-3 py-1.5 text-sm font-medium transition ${
               page === currentPage
-                ? "bg-zinc-900 text-white"
-                : "border border-zinc-300 text-zinc-700 hover:bg-zinc-100"
+                ? `
+                bg-zinc-900 text-white
+                dark:bg-white dark:text-zinc-900
+                `
+                : `
+                border border-zinc-300 text-zinc-800 hover:bg-zinc-100
+                dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800
+                `
             }`}
           >
             {page}
@@ -66,14 +78,19 @@ const Pagination = ({
         ),
       )}
 
+      {/* Next Button */}
       <button
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm font-medium text-zinc-700 transition hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-50"
+        className="rounded-lg border px-3 py-1.5 text-sm font-medium transition
+        border-zinc-300 text-zinc-800 hover:bg-zinc-100
+        dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800
+        disabled:cursor-not-allowed disabled:opacity-50"
       >
         Next
       </button>
+
     </div>
   );
 };
