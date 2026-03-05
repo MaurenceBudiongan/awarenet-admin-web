@@ -48,7 +48,7 @@ function Chart({
   gridColor: string;
 }) {
   return (
-    <svg width={chartWidth} height={chartHeight}>
+    <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} width="100%" style={{ display: "block" }}>
       {/* Horizontal grid lines with labels */}
       {gridValues.map((yValue) => {
         const yPos =
@@ -131,9 +131,9 @@ function Chart({
 
 const LineGraph = () => {
   return (
-    <div className="flex">
+    <div className="flex w-full">
       {/* Light mode */}
-      <div className="block dark:hidden">
+      <div className="block dark:hidden w-full max-w-[400px]">
         <Chart
           lineColor="#0d243a"
           dotColor="#0d243a"
@@ -142,7 +142,7 @@ const LineGraph = () => {
         />
       </div>
       {/* Dark mode */}
-      <div className="hidden dark:block">
+      <div className="hidden dark:block w-full max-w-[400px]">
         <Chart
           lineColor="#60a5fa"
           dotColor="#60a5fa"
