@@ -19,7 +19,7 @@ export default function BarChartPage() {
   const gridLines = [0, 75, 150, 225, 300];
 
   const renderChart = (barColor: string, axisColor: string, gridColor: string) => (
-    <svg width={chartWidth} height={chartHeight}>
+    <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} width="100%" style={{ display: "block" }}>
       {/* Horizontal grid lines with labels */}
       {gridLines.map((yValue) => {
         const yPos =
@@ -101,13 +101,13 @@ export default function BarChartPage() {
   );
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center w-full">
       {/* Light mode chart */}
-      <div className="block dark:hidden">
+      <div className="block dark:hidden w-full max-w-[400px]">
         {renderChart("#0d243a", "#565d6d", "#dee1e6")}
       </div>
       {/* Dark mode chart */}
-      <div className="hidden dark:block">
+      <div className="hidden dark:block w-full max-w-[400px]">
         {renderChart("#60a5fa", "#9ca3af", "#3f3f46")}
       </div>
     </div>

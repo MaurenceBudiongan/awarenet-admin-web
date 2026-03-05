@@ -53,11 +53,11 @@ const DonutChart: React.FC<{
   const centerTextFill = isDark ? "#f4f4f5" : "#18181b";
 
   return (
-    <div className="flex flex-col items-center gap-6">
+    <div className="flex flex-col items-center gap-6 w-full">
       <svg
-        width={size}
-        height={size}
         viewBox={`0 0 ${size} ${size}`}
+        width="100%"
+        style={{ maxWidth: size, display: "block" }}
         aria-label="Donut chart"
       >
         <g transform={`rotate(-90 ${radius} ${radius})`}>
