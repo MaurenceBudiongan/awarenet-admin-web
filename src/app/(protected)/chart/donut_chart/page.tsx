@@ -1,5 +1,7 @@
 "use client";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "lib/firebase";
 
 type Slice = {
   label: string;
@@ -8,12 +10,29 @@ type Slice = {
   darkColor?: string;
 };
 
+type HistoryItem = {
+  activityType?: string;
+  description?: string;
+  date?: unknown;
+};
+
+function toDate(value: unknown): Date | null {
+  if (!value) return null;
+  if (value instanceof Date) return value;
+  if (typeof value === "object" && value !== null && "toDate" in value) {
+    const v = value as { toDate: () => Date };
+    return v.toDate();
+  }
+  const parsed = new Date(value as string | number);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
 const DonutChart: React.FC<{
   slices: Slice[];
   size?: number;
   thickness?: number;
   isDark?: boolean;
-}> = ({ slices, size = 200, thickness = 48, isDark = false }) => {
+}> = ({ slices, size = 200, thickness = 20, isDark = false }) => {
   const radius = size / 2;
   const circumference = 2 * Math.PI * radius;
   const total = slices.reduce((s, v) => s + v.value, 0);
@@ -33,14 +52,13 @@ const DonutChart: React.FC<{
       const fraction = slice.value / total;
       const dash = fraction * circumference;
       const gap = Math.max(0, circumference - dash);
-      const strokeWidth = thickness;
       acc.arcs.push({
         label: slice.label,
         color: slice.color,
         darkColor: slice.darkColor,
         dash,
         gap,
-        strokeWidth,
+        strokeWidth: thickness,
         offset: -acc.offset,
       });
       acc.offset += dash;
@@ -75,7 +93,6 @@ const DonutChart: React.FC<{
             />
           ))}
         </g>
-        {/* Center circle */}
         <circle
           cx={radius}
           cy={radius}
@@ -84,29 +101,41 @@ const DonutChart: React.FC<{
         />
         <text
           x={radius}
-          y={radius}
+          y={radius - 6}
           textAnchor="middle"
           dominantBaseline="middle"
           fill={centerTextFill}
-          style={{ fontSize: 14, fontWeight: 600 }}
+          style={{ fontSize: 11, fontWeight: 600 }}
+        >
+          Total
+        </text>
+        <text
+          x={radius}
+          y={radius + 10}
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fill={centerTextFill}
+          style={{ fontSize: 14, fontWeight: 700 }}
         >
           {total}
         </text>
       </svg>
 
       {/* Legend */}
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 w-full">
         {slices.map((s) => (
           <div key={s.label} className="flex items-center gap-2">
             <span
-              className="inline-block h-3.5 w-3.5 rounded-sm"
-              style={{ background: isDark && s.darkColor ? s.darkColor : s.color }}
+              className="inline-block h-3.5 w-3.5 rounded-sm flex-shrink-0"
+              style={{
+                background: isDark && s.darkColor ? s.darkColor : s.color,
+              }}
             />
             <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
               {s.label}
             </span>
-            <span className="text-sm text-zinc-500 dark:text-zinc-400">
-              {Math.round((s.value / total) * 100)}%
+            <span className="text-sm text-zinc-500 dark:text-zinc-400 ml-auto">
+              {s.value} ({Math.round((s.value / total) * 100)}%)
             </span>
           </div>
         ))}
@@ -115,8 +144,15 @@ const DonutChart: React.FC<{
   );
 };
 
-// Dark mode aware wrapper using two renders toggled by Tailwind
-function DonutChartWrapper({ slices, size, thickness }: { slices: Slice[]; size?: number; thickness?: number }) {
+function DonutChartWrapper({
+  slices,
+  size,
+  thickness,
+}: {
+  slices: Slice[];
+  size?: number;
+  thickness?: number;
+}) {
   return (
     <>
       <div className="block dark:hidden">
@@ -129,25 +165,144 @@ function DonutChartWrapper({ slices, size, thickness }: { slices: Slice[]; size?
   );
 }
 
+const EMPTY_LEGEND = [
+  { label: "Safe", color: "#16a34a" },
+  { label: "Malicious", color: "#dc2626" },
+  { label: "Suspicious", color: "#ea580c" },
+];
+
 export default function Page(): React.ReactElement {
-  const data: Slice[] = [
-    {
-      label: "Security Risk",
-      value: 68,
-      color: "#0D243A",
-      darkColor: "#60a5fa", // blue-400 — visible on dark bg
-    },
-    {
-      label: "Malicious Activities",
-      value: 32,
-      color: "#8AAB67",
-      darkColor: "#86efac", // green-300 — brighter on dark bg
-    },
+  const [historyItems, setHistoryItems] = useState<HistoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(db, "history"),
+      (snapshot) => {
+        const items: HistoryItem[] = snapshot.docs.map((doc) => {
+          const d = doc.data();
+          return { activityType: d.activityType, description: d.description, date: d.date };
+        });
+        setHistoryItems(items);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Failed to subscribe history collection:", error);
+        setLoading(false);
+      },
+    );
+    return () => unsub();
+  }, []);
+
+  const { safe, malicious, suspicious } = useMemo(() => {
+    const now = new Date();
+    const month = now.getMonth();
+    const year = now.getFullYear();
+
+    const monthItems = historyItems.filter((item) => {
+      const parsed = toDate(item.date);
+      if (!parsed) return false;
+      return parsed.getMonth() === month && parsed.getFullYear() === year;
+    });
+
+    // The mobile app stores activityType="Scanning" and description="Safe: <url>",
+    // "Malicious: <url>", or "Suspicious: <url>". Match against description first,
+    // then fall back to activityType for any other format.
+    const getStatus = (item: HistoryItem) => {
+      const desc = (item.description ?? "").toLowerCase();
+      const type = (item.activityType ?? "").toLowerCase();
+      if (desc.startsWith("safe") || type.includes("safe")) return "safe";
+      if (desc.startsWith("malicious") || type.includes("malicious")) return "malicious";
+      if (desc.startsWith("suspicious") || type.includes("suspicious")) return "suspicious";
+      return null;
+    };
+
+    return {
+      safe: monthItems.filter((i) => getStatus(i) === "safe").length,
+      malicious: monthItems.filter((i) => getStatus(i) === "malicious").length,
+      suspicious: monthItems.filter((i) => getStatus(i) === "suspicious").length,
+    };
+  }, [historyItems]);
+
+  const total = safe + malicious + suspicious;
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-10">
+        <span className="text-sm text-zinc-400">Loading...</span>
+      </div>
+    );
+  }
+
+  if (total === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center gap-4 py-6">
+        <svg viewBox="0 0 200 200" width="100%" style={{ maxWidth: 200 }}>
+          <circle
+            cx="100"
+            cy="100"
+            r="76"
+            fill="transparent"
+            stroke="#e4e4e7"
+            strokeWidth="20"
+          />
+          <circle
+            cx="100"
+            cy="100"
+            r="56"
+            fill="white"
+            className="dark:fill-zinc-900"
+          />
+          <text
+            x="100"
+            y="95"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="#a1a1aa"
+            style={{ fontSize: 11 }}
+          >
+            No data
+          </text>
+          <text
+            x="100"
+            y="112"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            fill="#a1a1aa"
+            style={{ fontSize: 11 }}
+          >
+            this month
+          </text>
+        </svg>
+        <div className="flex flex-col gap-2 w-full">
+          {EMPTY_LEGEND.map((item) => (
+            <div key={item.label} className="flex items-center gap-2">
+              <span
+                className="inline-block h-3.5 w-3.5 rounded-sm flex-shrink-0"
+                style={{ background: item.color }}
+              />
+              <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                {item.label}
+              </span>
+              <span className="text-sm text-zinc-500 dark:text-zinc-400 ml-auto">
+                0 (0%)
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const slices: Slice[] = [
+    { label: "Safe", value: safe, color: "#16a34a", darkColor: "#4ade80" },
+    { label: "Malicious", value: malicious, color: "#dc2626", darkColor: "#f87171" },
+    { label: "Suspicious", value: suspicious, color: "#ea580c", darkColor: "#fb923c" },
   ];
 
   return (
-    <main className="p-12">
-      <DonutChartWrapper slices={data} size={200} thickness={20} />
+    <main>
+      <DonutChartWrapper slices={slices} size={200} thickness={20} />
     </main>
   );
 }
