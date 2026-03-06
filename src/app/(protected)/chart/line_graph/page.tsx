@@ -2,54 +2,70 @@
 
 import React from "react";
 
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-const values = [100, 150, 130, 180, 200, 190, 160];
-const maxValue = 200;
+type DayData = { day: string; count: number };
 
 const chartWidth = 400;
 const chartHeight = 400;
 const padding = 60;
-const pointSpacing = (chartWidth - 2 * padding) / (days.length - 1);
 
-const points = days.map((_, index) => {
-  const xPos = padding + index * pointSpacing;
-  const yPos =
-    chartHeight -
-    padding -
-    (values[index] / maxValue) * (chartHeight - 2 * padding);
-  return { xPos, yPos, value: values[index] };
-});
+function computeChart(data: DayData[]) {
+  const rawMax = Math.max(...data.map((d) => d.count), 1);
+  const maxValue = Math.ceil(rawMax / 10) * 10;
+  const step = maxValue / 4;
+  const gridValues = [0, step, step * 2, step * 3, maxValue];
 
-const pathD = points
-  .map((point, idx) => {
-    if (idx === 0) return `M ${point.xPos} ${point.yPos}`;
-    const prevPoint = points[idx - 1];
-    const nextPoint = points[idx + 1];
-    const cpX1 = prevPoint.xPos + (point.xPos - prevPoint.xPos) / 2;
-    const cpY1 = prevPoint.yPos;
-    const cpX2 =
-      point.xPos - (nextPoint ? (nextPoint.xPos - point.xPos) / 2 : 0);
-    const cpY2 = point.yPos;
-    return `C ${cpX1} ${cpY1} ${cpX2} ${cpY2} ${point.xPos} ${point.yPos}`;
-  })
-  .join(" ");
+  const pointSpacing =
+    data.length > 1 ? (chartWidth - 2 * padding) / (data.length - 1) : 0;
 
-const gridValues = [0, 50, 100, 150, 200];
+  const points = data.map((item, index) => {
+    const xPos =
+      data.length === 1
+        ? chartWidth / 2
+        : padding + index * pointSpacing;
+    const yPos =
+      chartHeight -
+      padding -
+      (item.count / maxValue) * (chartHeight - 2 * padding);
+    return { xPos, yPos, label: item.day };
+  });
+
+  const pathD = points
+    .map((point, idx) => {
+      if (idx === 0) return `M ${point.xPos} ${point.yPos}`;
+      const prevPoint = points[idx - 1];
+      const nextPoint = points[idx + 1];
+      const cpX1 = prevPoint.xPos + (point.xPos - prevPoint.xPos) / 2;
+      const cpY1 = prevPoint.yPos;
+      const cpX2 = point.xPos - (nextPoint ? (nextPoint.xPos - point.xPos) / 2 : 0);
+      const cpY2 = point.yPos;
+      return `C ${cpX1} ${cpY1} ${cpX2} ${cpY2} ${point.xPos} ${point.yPos}`;
+    })
+    .join(" ");
+
+  return { points, pathD, gridValues, maxValue };
+}
 
 function Chart({
+  data,
   lineColor,
   dotColor,
   axisColor,
   gridColor,
 }: {
+  data: DayData[];
   lineColor: string;
   dotColor: string;
   axisColor: string;
   gridColor: string;
 }) {
+  const { points, pathD, gridValues, maxValue } = computeChart(data);
+
   return (
-    <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} width="100%" style={{ display: "block" }}>
-      {/* Horizontal grid lines with labels */}
+    <svg
+      viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+      width="100%"
+      style={{ display: "block" }}
+    >
       {gridValues.map((yValue) => {
         const yPos =
           chartHeight -
@@ -66,13 +82,13 @@ function Chart({
               strokeWidth="1"
             />
             <text
-              x={padding - 30}
+              x={padding - 8}
               y={yPos + 5}
-              fontSize="12"
+              fontSize="11"
               fill={axisColor}
               textAnchor="end"
             >
-              {yValue}
+              {Math.round(yValue)}
             </text>
           </g>
         );
@@ -113,28 +129,39 @@ function Chart({
       ))}
 
       {/* X-axis labels */}
-      {days.map((day, index) => (
+      {data.map((item, index) => (
         <text
-          key={`label-${day}`}
+          key={`label-${item.day}-${index}`}
           x={points[index].xPos}
-          y={chartHeight - padding + 25}
-          fontSize="14"
+          y={chartHeight - padding + 22}
+          fontSize="12"
           fill={axisColor}
           textAnchor="middle"
         >
-          {day}
+          {item.day}
         </text>
       ))}
     </svg>
   );
 }
 
-const LineGraph = () => {
+const LineGraph = ({ data }: { data?: DayData[] }) => {
+  const chartData: DayData[] = data ?? [
+    { day: "Mon", count: 0 },
+    { day: "Tue", count: 0 },
+    { day: "Wed", count: 0 },
+    { day: "Thu", count: 0 },
+    { day: "Fri", count: 0 },
+    { day: "Sat", count: 0 },
+    { day: "Sun", count: 0 },
+  ];
+
   return (
     <div className="flex w-full">
       {/* Light mode */}
       <div className="block dark:hidden w-full max-w-[400px]">
         <Chart
+          data={chartData}
           lineColor="#0d243a"
           dotColor="#0d243a"
           axisColor="#565d6d"
@@ -144,6 +171,7 @@ const LineGraph = () => {
       {/* Dark mode */}
       <div className="hidden dark:block w-full max-w-[400px]">
         <Chart
+          data={chartData}
           lineColor="#60a5fa"
           dotColor="#60a5fa"
           axisColor="#9ca3af"

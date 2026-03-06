@@ -2,25 +2,39 @@
 
 import React from "react";
 
-export default function BarChartPage() {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const values = [170, 220, 180, 240, 300, 280, 210];
-  const maxValue = 300;
+type DayData = { day: string; count: number };
 
-  const chartWidth = 400;
-  const chartHeight = 400;
-  const padding = 60;
-  const barWidth = (chartWidth - 2 * padding) / days.length;
+const chartWidth = 400;
+const chartHeight = 400;
+const padding = 60;
+const radius = 5;
+
+function computeGrid(data: DayData[]) {
+  const rawMax = Math.max(...data.map((d) => d.count), 1);
+  const maxValue = Math.ceil(rawMax / 10) * 10;
+  const step = maxValue / 4;
+  return {
+    maxValue,
+    gridLines: [0, step, step * 2, step * 3, maxValue],
+  };
+}
+
+function renderChart(
+  data: DayData[],
+  barColor: string,
+  axisColor: string,
+  gridColor: string,
+) {
+  const { maxValue, gridLines } = computeGrid(data);
+  const barWidth = (chartWidth - 2 * padding) / data.length;
   const barSpacing = barWidth * 0.8;
-  const radius = 5;
 
-  // Dark mode detection via CSS custom property trick using a wrapper class
-  // We render two SVGs and show/hide via Tailwind dark: utilities
-  const gridLines = [0, 75, 150, 225, 300];
-
-  const renderChart = (barColor: string, axisColor: string, gridColor: string) => (
-    <svg viewBox={`0 0 ${chartWidth} ${chartHeight}`} width="100%" style={{ display: "block" }}>
-      {/* Horizontal grid lines with labels */}
+  return (
+    <svg
+      viewBox={`0 0 ${chartWidth} ${chartHeight}`}
+      width="100%"
+      style={{ display: "block" }}
+    >
       {gridLines.map((yValue) => {
         const yPos =
           chartHeight -
@@ -37,13 +51,13 @@ export default function BarChartPage() {
               strokeWidth="1"
             />
             <text
-              x={padding - 20}
+              x={padding - 8}
               y={yPos + 5}
-              fontSize="12"
+              fontSize="11"
               fill={axisColor}
               textAnchor="end"
             >
-              {yValue}
+              {Math.round(yValue)}
             </text>
           </g>
         );
@@ -69,46 +83,58 @@ export default function BarChartPage() {
         strokeWidth="2"
       />
 
-      {/* Bars */}
-      {days.map((day, index) => {
+      {data.map((item, index) => {
         const barHeight =
-          (values[index] / maxValue) * (chartHeight - 2 * padding);
-        const xPos = padding + index * barWidth + (barWidth - barSpacing) / 2;
-        const yPos = chartHeight - padding - barHeight;
+          (item.count / maxValue) * (chartHeight - 2 * padding);
+        const xPos =
+          padding + index * barWidth + (barWidth - barSpacing) / 2;
+        const yPos = chartHeight - padding - Math.max(barHeight, 0);
         return (
-          <g key={`bar-${day}`}>
+          <g key={`bar-${item.day}-${index}`}>
             <rect
               x={xPos}
               y={yPos}
               width={barSpacing}
-              height={barHeight}
+              height={Math.max(barHeight, 0)}
               fill={barColor}
               ry={radius}
             />
             <text
               x={xPos + barSpacing / 2}
-              y={chartHeight - padding + 25}
-              fontSize="14"
+              y={chartHeight - padding + 22}
+              fontSize="12"
               fill={axisColor}
               textAnchor="middle"
             >
-              {day}
+              {item.day}
             </text>
           </g>
         );
       })}
     </svg>
   );
+}
+
+export default function BarChartPage({ data }: { data?: DayData[] }) {
+  const chartData: DayData[] = data ?? [
+    { day: "Mon", count: 0 },
+    { day: "Tue", count: 0 },
+    { day: "Wed", count: 0 },
+    { day: "Thu", count: 0 },
+    { day: "Fri", count: 0 },
+    { day: "Sat", count: 0 },
+    { day: "Sun", count: 0 },
+  ];
 
   return (
     <div className="flex items-center justify-center w-full">
-      {/* Light mode chart */}
+      {/* Light mode */}
       <div className="block dark:hidden w-full max-w-[400px]">
-        {renderChart("#0d243a", "#565d6d", "#dee1e6")}
+        {renderChart(chartData, "#0d243a", "#565d6d", "#dee1e6")}
       </div>
-      {/* Dark mode chart */}
+      {/* Dark mode */}
       <div className="hidden dark:block w-full max-w-[400px]">
-        {renderChart("#60a5fa", "#9ca3af", "#3f3f46")}
+        {renderChart(chartData, "#60a5fa", "#9ca3af", "#3f3f46")}
       </div>
     </div>
   );
